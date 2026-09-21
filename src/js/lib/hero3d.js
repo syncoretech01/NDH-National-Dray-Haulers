@@ -31,7 +31,7 @@ export function initHero3D(canvas) {
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, .1, 200);
-  camera.position.set(16, 8, 34);
+  camera.position.set(17, 5.2, 34);
 
   // Lights: cool key, cyan + green rims (brand)
   scene.add(new THREE.HemisphereLight(0xdfe8f2, 0x0b1220, .9));
@@ -127,40 +127,76 @@ export function initHero3D(canvas) {
   [TX - .5, TX + .7].forEach((ax) => [-1.15, -.85, .85, 1.15].forEach((z) => wheel(.54, .3, mRubber, ax, .54, z, tractor))); // drive axles
   rig.add(tractor);
 
-  /* ---- Ground: shadow blob + grid ---- */
-  const shadowTex = (() => {
+  /* ---- Ground: asphalt + scrolling grid, lane markings, contact shadow ---- */
+  // Grid texture (repeats) - scrolled every frame so the rig reads as driving forward
+  const gridTex = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 256;
     const ctx = c.getContext('2d');
-    const g = ctx.createRadialGradient(128, 128, 10, 128, 128, 128);
-    g.addColorStop(0, 'rgba(0,0,0,.75)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256);
+    ctx.fillStyle = '#0d1524'; ctx.fillRect(0, 0, 256, 256);
+    ctx.strokeStyle = 'rgba(26,163,227,.22)'; ctx.lineWidth = 2;
+    ctx.strokeRect(1, 1, 254, 254);
+    ctx.strokeStyle = 'rgba(255,255,255,.04)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(128, 0); ctx.lineTo(128, 256); ctx.moveTo(0, 128); ctx.lineTo(256, 128); ctx.stroke();
+    const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(12, 12); t.anisotropy = 4;
+    return t;
+  })();
+  // Alpha mask: floor is solid under the rig and dissolves toward the edges so the photo stays visible behind the headline
+  const alphaTex = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 512;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(256, 256, 10, 256, 256, 256);
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.3, 'rgba(255,255,255,.8)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 512);
     return new THREE.CanvasTexture(c);
   })();
-  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(26, 9), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
-  shadow.rotation.x = -Math.PI / 2; shadow.position.set(1.5, .01, 0); rig.add(shadow);
-  const grid = new THREE.GridHelper(120, 60, CYAN, 0x2a3547);
-  grid.material.transparent = true; grid.material.opacity = .14; grid.position.y = 0;
-  scene.add(grid);
-  scene.fog = new THREE.FogExp2(0x0b1220, .028);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(76, 76), new THREE.MeshStandardMaterial({ map: gridTex, alphaMap: alphaTex, color: 0xffffff, roughness: .9, metalness: .1, transparent: true, depthWrite: false }));
+  ground.rotation.x = -Math.PI / 2; ground.position.y = 0; scene.add(ground);
+  // Road strip under the rig with dashed lane lines
+  const laneTex = (() => {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 128;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#131c2c'; ctx.fillRect(0, 0, 512, 128);
+    ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(0, 60, 220, 8);
+    ctx.fillStyle = 'rgba(47,181,124,.7)'; ctx.fillRect(0, 4, 512, 4); ctx.fillRect(0, 120, 512, 4);
+    const t = new THREE.CanvasTexture(c); t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.repeat.set(30, 1);
+    return t;
+  })();
+  const road = new THREE.Mesh(new THREE.PlaneGeometry(240, 8), new THREE.MeshStandardMaterial({ map: laneTex, roughness: .95, metalness: 0 }));
+  road.rotation.x = -Math.PI / 2; road.position.y = .012; rig.add(road); // rides with the rig so it always sits under the wheels
+  // Soft contact shadow that travels with the rig
+  const shadowTex = (() => {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 256;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(256, 128, 20, 256, 128, 230);
+    g.addColorStop(0, 'rgba(0,0,0,.85)'); g.addColorStop(.55, 'rgba(0,0,0,.45)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 512, 256);
+    return new THREE.CanvasTexture(c);
+  })();
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(24, 6), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
+  shadow.rotation.x = -Math.PI / 2; shadow.position.set(1.5, .03, 0); rig.add(shadow);
+  scene.fog = new THREE.FogExp2(0x0b1220, .017);
 
-  // Floating container cubes in the background (depth)
-  const cubes = new THREE.Group();
-  const cubeGeo = new THREE.BoxGeometry(2.4, 1.2, 1.2);
-  const cubeFill = new THREE.MeshStandardMaterial({ color: 0x14335a, metalness: .4, roughness: .5, transparent: true, opacity: .35 });
-  const cubeEdge = new THREE.LineBasicMaterial({ color: CYAN, transparent: true, opacity: .5 });
-  for (let k = 0; k < 9; k++) {
-    const m = new THREE.Mesh(cubeGeo, cubeFill);
-    m.add(new THREE.LineSegments(new THREE.EdgesGeometry(cubeGeo), cubeEdge));
-    m.position.set(-6 + Math.random() * 40, 1 + Math.random() * 5, -34 - Math.random() * 20);
-    m.rotation.set(Math.random() * .4, Math.random() * Math.PI, 0);
-    m.userData.spin = (Math.random() - .5) * .15; m.userData.y0 = m.position.y; m.userData.phase = Math.random() * Math.PI * 2;
-    cubes.add(m);
-  }
-  scene.add(cubes);
+  // Background: stacked containers on the ground (a terminal yard), instanced
+  const yardGeo = new THREE.BoxGeometry(12.2, 2.6, 2.44);
+  const yardMats = [new THREE.MeshStandardMaterial({ color: 0x16223a, roughness: .6, metalness: .3 }), new THREE.MeshStandardMaterial({ color: 0x0f5f86, roughness: .6, metalness: .3 }), new THREE.MeshStandardMaterial({ color: 0x1f6f55, roughness: .6, metalness: .3 })];
+  const yard = new THREE.Group();
+  const d = new THREE.Object3D();
+  yardMats.forEach((mat, mi) => {
+    const inst = new THREE.InstancedMesh(yardGeo, mat, 60); let n = 0;
+    for (let row = 0; row < 3; row++) for (let col = 0; col < 7; col++) for (let lvl = 0; lvl < 3; lvl++) {
+      if ((row * 7 + col + lvl) % 3 !== mi) continue;
+      if (Math.random() < .25 && lvl > 0) continue;
+      d.position.set(-40 + col * 13.2 + row * 2.5, 1.3 + lvl * 2.62, -58 - row * 6);
+      d.rotation.set(0, 0, 0); d.updateMatrix(); inst.setMatrixAt(n++, d.matrix);
+    }
+    inst.count = n; yard.add(inst);
+  });
+  scene.add(yard);
+  const cubes = new THREE.Group(); scene.add(cubes); // (legacy hook for intro tween)
 
   rig.position.set(3.5, 0, 0);
-  rig.rotation.y = -0.55;
-  const target = new THREE.Vector3(6, -2.4, 0);
+  rig.rotation.y = -0.68;
+  const target = new THREE.Vector3(7, 1.2, 0);
 
   /* ---- Sizing ---- */
   const resize = () => {
@@ -168,8 +204,8 @@ export function initHero3D(canvas) {
     renderer.setSize(w, h, false);
     camera.aspect = w / h; camera.updateProjectionMatrix();
     // Push the rig to the right of the hero text on wide screens
-    rig.position.x = w > 1400 ? 9 : w > 1100 ? 7 : 5;
-    camera.position.z = w < 1100 ? 46 : 34;
+    rig.position.x = w > 1400 ? 12 : w > 1100 ? 9.5 : 11; rig.scale.setScalar(w > 1600 ? .86 : w > 1100 ? .8 : .72); ground.position.x = rig.position.x + 9; ground.position.z = 3;
+    camera.position.z = w < 1100 ? 44 : 34; camera.setViewOffset(w, h, 0, h * (w < 1100 ? 0.2 : 0.09), w, h);
   };
   resize();
   window.addEventListener('resize', resize);
@@ -187,32 +223,37 @@ export function initHero3D(canvas) {
     if (reduceMotion) { canvas.classList.add('is-ready'); return; }
     container.position.y = 9; container.rotation.z = .06;
     tractor.position.x = 14; chassis.position.x = -10;
-    cubes.children.forEach((c) => c.scale.setScalar(0.001));
     canvas.classList.add('is-ready');
     gsap.timeline({ defaults: { ease: 'expo.out' } })
       .to(chassis.position, { x: 0, duration: 1.6 }, 0)
       .to(tractor.position, { x: 0, duration: 1.7 }, .15)
       .to(container.position, { y: 1.35, duration: 1.5, ease: 'expo.inOut' }, .5)
       .to(container.rotation, { z: 0, duration: 1.2 }, .8)
-      .to(cubes.children.map((c) => c.scale), { x: 1, y: 1, z: 1, duration: 1.4, stagger: .04 }, .6);
+      .from(yard.position, { y: -12, duration: 1.8, ease: 'expo.out' }, .3);
   };
   if (document.documentElement.classList.contains('is-loading')) window.addEventListener('ndh:ready', play, { once: true });
   else play();
 
   /* ---- Loop (paused when off-screen) ---- */
-  let visible = true, t0 = performance.now();
+  let visible = true, t0 = performance.now(), last = t0;
   new IntersectionObserver(([e]) => (visible = e.isIntersecting), { threshold: 0 }).observe(canvas);
   const tick = () => {
     if (!visible) return;
-    const t = (performance.now() - t0) / 1000;
+    const now = performance.now(); const t = (now - t0) / 1000; const dt = Math.min(.05, (now - last) / 1000); last = now;
     smooth.x += (mouse.x - smooth.x) * .05; smooth.y += (mouse.y - smooth.y) * .05;
-    rig.rotation.y = -0.55 + Math.sin(t * .25) * .12 + smooth.x * .18;
-    rig.rotation.x = smooth.y * .04;
-    rig.position.y = Math.sin(t * .8) * .06 - scroll.p * 6;
-    camera.position.x = 16 + smooth.x * 1.2; camera.position.y = 8 - smooth.y * .8 + scroll.p * 4;
+    // Road speed (units/sec): ground + lane texture scroll toward the rear of the rig, wheels spin to match
+    const speed = 6.5;
+    gridTex.offset.x += (speed / 6.33) * dt * Math.cos(0.68);
+    gridTex.offset.y -= (speed / 6.33) * dt * Math.sin(0.68);
+    laneTex.offset.x += (speed / 8) * dt;
+    allWheels.forEach((w) => (w.rotation.z -= (speed / .55) * dt));
+    // Suspension: tiny high-frequency road vibration + slow cab pitch, never leaves the ground
+    rig.position.y = Math.abs(Math.sin(t * 9.3)) * .012 + Math.sin(t * 2.1) * .01 - scroll.p * 4;
+    rig.rotation.x = Math.sin(t * 1.7) * .006 + smooth.y * .02;
+    rig.rotation.z = Math.sin(t * 2.6) * .004;
+    rig.rotation.y = -0.68 + smooth.x * .06;
+    camera.position.x = 17 + smooth.x * 1.4; camera.position.y = 5.2 - smooth.y * .6 + scroll.p * 3;
     camera.lookAt(target);
-    allWheels.forEach((w) => (w.rotation.z -= .01));
-    cubes.children.forEach((c) => { c.rotation.y += c.userData.spin * .01; c.position.y = c.userData.y0 + Math.sin(t * .5 + c.userData.phase) * .6; });
     rimC.intensity = 55 + Math.sin(t * 1.3) * 12; rimG.intensity = 45 + Math.cos(t * 1.1) * 10;
     renderer.render(scene, camera);
   };
