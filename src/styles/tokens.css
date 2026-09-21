@@ -1,0 +1,75 @@
+:root {
+  /* Brand palette derived from the NDH logo */
+  --navy-950: #070c16;
+  --navy-900: #0b1220;
+  --navy-800: #111a2b;
+  --navy-700: #1b2433;
+  --navy-600: #2a3547;
+  --slate-500: #5b6779;
+  --slate-400: #8a94a6;
+  --slate-300: #c3cad5;
+  --slate-200: #e1e6ec;
+  --slate-100: #eef2f6;
+  --slate-50: #f6f8fb;
+  --white: #ffffff;
+  --cyan: #1aa3e3;
+  --cyan-600: #0e86c4;
+  --cyan-700: #0a6ea3;
+  --cyan-100: #ddf2fc;
+  --green: #2fb57c;
+  --green-600: #219a66;
+  --green-100: #ddf5ea;
+  --amber: #f5a524;
+  --red: #e5484d;
+
+  --grad: linear-gradient(120deg, var(--cyan) 0%, var(--green) 100%);
+  --grad-soft: linear-gradient(120deg, rgba(26,163,227,.14) 0%, rgba(47,181,124,.14) 100%);
+  --grad-dark: linear-gradient(180deg, rgba(11,18,32,0) 0%, rgba(11,18,32,.85) 100%);
+
+  --bg: var(--white);
+  --bg-alt: var(--slate-50);
+  --fg: var(--navy-700);
+  --fg-muted: var(--slate-500);
+  --line: var(--slate-200);
+
+  --font-display: 'Sora', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.2rem, 1.05rem + .5vw, 1.4rem);
+  --text-2xl: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --text-3xl: clamp(1.9rem, 1.4rem + 1.8vw, 2.75rem);
+  --text-4xl: clamp(2.4rem, 1.6rem + 3vw, 4rem);
+  --text-5xl: clamp(2.8rem, 1.6rem + 4.6vw, 5.6rem);
+  --text-6xl: clamp(3.2rem, 1.4rem + 6.5vw, 7.5rem);
+
+  --container: 1440px;
+  --gutter: clamp(20px, 5vw, 72px);
+  --section: clamp(80px, 10vw, 160px);
+  --section-sm: clamp(56px, 7vw, 104px);
+
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-sm: 0 1px 2px rgba(11,18,32,.06), 0 1px 3px rgba(11,18,32,.08);
+  --shadow: 0 10px 30px -10px rgba(11,18,32,.18);
+  --shadow-lg: 0 30px 60px -20px rgba(11,18,32,.28);
+  --shadow-glow: 0 0 0 1px rgba(26,163,227,.25), 0 20px 50px -20px rgba(26,163,227,.45);
+
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --ease-expo: cubic-bezier(.87, 0, .13, 1);
+  --dur: .5s;
+
+  --header-h: 84px;
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 68px; }
+}

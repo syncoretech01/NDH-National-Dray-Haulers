@@ -1,0 +1,8 @@
+node_modules
+dist
+data/uploads/*
+data/submissions/*
+!data/uploads/.gitkeep
+!data/submissions/.gitkeep
+scratch
+.env

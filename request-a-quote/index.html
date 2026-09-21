@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--#include head title="Request a Drayage Quote from the Port of Virginia" description="Get an all-in container drayage rate from National Dray Haulers. Import, export, transload, overweight and rail moves from Norfolk, Portsmouth and Newport News terminals. Quotes typically returned within one hour." path="/request-a-quote/" -->
+</head>
+<body data-page="quote">
+  <!--#include shell -->
+  <!--#include icons -->
+  <!--#include header theme="dark" -->
+
+  <main id="main">
+    <header class="page-hero" style="min-height:460px">
+      <div class="page-hero__media" aria-hidden="true">
+        <img src="/images/ship-terminal-aerial-1600.webp" srcset="/images/ship-terminal-aerial-800.webp 800w, /images/ship-terminal-aerial-1600.webp 1600w" sizes="100vw" alt="" width="1600" height="1068" fetchpriority="high" decoding="async">
+      </div>
+      <div class="container page-hero__inner">
+        <div>
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep"></span><span aria-current="page">Request a Quote</span></nav>
+          <h1 data-split>Request a drayage quote.</h1>
+          <p class="lead" data-reveal>Tell us about the container and the lane. A dispatcher reviews every request personally and returns an all-in rate &mdash; fuel, chassis and tolls included &mdash; typically within one hour during business hours.</p>
+        </div>
+        <div class="page-hero__aside" data-reveal data-reveal-delay="0.2">
+          <span class="badge badge--outline"><span class="dot"></span>Avg. response under 60 min</span>
+          <a class="btn btn--outline-light" href="tel:+17032001393"><svg width="16" height="16" aria-hidden="true"><use href="#i-phone"/></svg><span class="btn__text">Prefer to call? (703) 200-1393</span></a>
+        </div>
+      </div>
+    </header>
+
+    <section class="section section--alt">
+      <div class="container form-shell">
+        <aside class="form-side">
+          <div class="form-side__card" data-reveal>
+            <h3>Steps</h3>
+            <ol class="form-steps">
+              <li class="is-active"><span class="n">1</span><span>Shipment details</span></li>
+              <li><span class="n">2</span><span>Route &amp; timing</span></li>
+              <li><span class="n">3</span><span>Your contact info</span></li>
+              <li><span class="n">4</span><span>Review &amp; send</span></li>
+            </ol>
+          </div>
+          <div class="form-side__card" data-reveal data-reveal-delay="0.1">
+            <h3>What we include in every quote</h3>
+            <ul>
+              <li>Line-haul drayage rate</li>
+              <li>Fuel surcharge at current index</li>
+              <li>Company chassis, per-day disclosed</li>
+              <li>Tolls and terminal fees</li>
+              <li>Accessorial schedule (no surprises)</li>
+            </ul>
+          </div>
+          <div class="form-side__card form-side__card--dark" data-reveal data-reveal-delay="0.2">
+            <h3>Hot container?</h3>
+            <p>If the box is on last free day or a vessel cut-off is tomorrow, skip the form and call dispatch.</p>
+            <a class="big" href="tel:+17032001393">(703) 200-1393</a>
+          </div>
+        </aside>
+
+        <form class="form-card" data-form="quote" id="quote-form" enctype="multipart/form-data" novalidate data-reveal>
+          <div class="stepper" aria-hidden="true">
+            <div class="stepper__item is-active"><div class="bar"><span></span></div><span class="lbl">01 Shipment</span></div>
+            <div class="stepper__item"><div class="bar"><span></span></div><span class="lbl">02 Route</span></div>
+            <div class="stepper__item"><div class="bar"><span></span></div><span class="lbl">03 Contact</span></div>
+            <div class="stepper__item"><div class="bar"><span></span></div><span class="lbl">04 Review</span></div>
+          </div>
+          <input type="text" name="_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+
+          <!-- Step 1 -->
+          <fieldset class="step-panel is-active" data-step="1" style="border:0;padding:0;margin:0;min-width:0">
+            <legend class="form-section__head" style="padding:0;margin-bottom:24px"><div class="form-section__num">01</div><div><h2>Shipment details</h2><p>What are we moving?</p></div></legend>
+            <div class="field field--full" style="margin-bottom:20px">
+              <span class="label">Type of move <span class="req">*</span></span>
+              <div class="choice-grid" role="radiogroup" aria-label="Type of move">
+                <label class="choice"><input type="radio" name="move_type" value="import" required data-review="Move type" checked><span class="box"><svg aria-hidden="true"><use href="#i-import"/></svg><strong>Import</strong><span>Terminal to door</span></span></label>
+                <label class="choice"><input type="radio" name="move_type" value="export" data-review="Move type"><span class="box"><svg aria-hidden="true"><use href="#i-export"/></svg><strong>Export</strong><span>Door to terminal</span></span></label>
+                <label class="choice"><input type="radio" name="move_type" value="transload" data-review="Move type"><span class="box"><svg aria-hidden="true"><use href="#i-transload"/></svg><strong>Transload</strong><span>Container to trailer</span></span></label>
+                <label class="choice"><input type="radio" name="move_type" value="rail" data-review="Move type"><span class="box"><svg aria-hidden="true"><use href="#i-rail"/></svg><strong>Rail ramp</strong><span>NS / CSX ramps</span></span></label>
+                <label class="choice"><input type="radio" name="move_type" value="storage" data-review="Move type"><span class="box"><svg aria-hidden="true"><use href="#i-chassis"/></svg><strong>Yard / storage</strong><span>Pre-pull &amp; staging</span></span></label>
+                <label class="choice"><input type="radio" name="move_type" value="other" data-review="Move type"><span class="box"><svg aria-hidden="true"><use href="#i-layers"/></svg><strong>Other</strong><span>Tell us below</span></span></label>
+              </div>
+            </div>
+            <div class="fields fields--3">
+              <div class="field">
+                <label for="container_size">Container size <span class="req">*</span></label>
+                <select id="container_size" name="container_size" required data-review="Container size">
+                  <option value="">Select</option><option>20' Standard</option><option>40' Standard</option><option>40' High Cube</option><option>45' High Cube</option><option>20' Reefer</option><option>40' Reefer</option><option>Open Top / Flat Rack</option><option>53' Domestic</option>
+                </select>
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <label for="quantity">Number of containers <span class="req">*</span></label>
+                <input id="quantity" name="quantity" type="number" min="1" max="999" value="1" required data-validate="number" data-review="Quantity">
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <label for="frequency">Frequency</label>
+                <select id="frequency" name="frequency" data-review="Frequency"><option>One-time</option><option>Weekly</option><option>Monthly program</option><option>Project / seasonal</option></select>
+              </div>
+              <div class="field">
+                <label for="commodity">Commodity <span class="req">*</span></label>
+                <input id="commodity" name="commodity" type="text" placeholder="e.g. Furniture, steel coil, beverages" required data-review="Commodity">
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <label for="weight">Cargo weight (lbs) <span class="opt">approx.</span></label>
+                <input id="weight" name="weight" type="number" min="0" inputmode="numeric" placeholder="e.g. 42000" data-validate="number" data-review="Cargo weight (lbs)">
+                <span class="error"></span>
+                <span class="hint">Over 38,000 lbs in a 40' or 36,000 lbs in a 20' usually requires a tri-axle chassis.</span>
+              </div>
+              <div class="field">
+                <label for="container_number">Container / booking # <span class="opt">optional</span></label>
+                <input id="container_number" name="container_number" type="text" placeholder="MSCU1234567" data-review="Container / booking">
+                <span class="error"></span>
+              </div>
+            </div>
+            <div class="field field--full" style="margin-top:20px">
+              <span class="label">Special requirements</span>
+              <div class="check-grid check-grid--3">
+                <label class="check"><input type="checkbox" name="req_hazmat" value="yes" data-review="Hazmat"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Hazmat / placarded</label>
+                <label class="check"><input type="checkbox" name="req_overweight" value="yes" data-review="Overweight"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Overweight (tri-axle)</label>
+                <label class="check"><input type="checkbox" name="req_reefer" value="yes" data-review="Reefer / genset"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Reefer with genset</label>
+                <label class="check"><input type="checkbox" name="req_expedite" value="yes" data-review="Expedited"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Expedited / hot</label>
+                <label class="check"><input type="checkbox" name="req_liftgate" value="yes" data-review="Residential / no dock"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>No dock / residential</label>
+                <label class="check"><input type="checkbox" name="req_storage" value="yes" data-review="Storage needed"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Storage / pre-pull</label>
+              </div>
+            </div>
+            <div class="form-actions"><p>Step 1 of 4. No account required to receive a quote.</p><button type="button" class="btn btn--dark" data-next><span class="btn__text">Continue to route</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+          </fieldset>
+
+          <!-- Step 2 -->
+          <fieldset class="step-panel" data-step="2" style="border:0;padding:0;margin:0;min-width:0">
+            <legend class="form-section__head" style="padding:0;margin-bottom:24px"><div class="form-section__num">02</div><div><h2>Route &amp; timing</h2><p>Where is the container now and where does it need to be?</p></div></legend>
+            <div class="fields">
+              <div class="field">
+                <label for="origin">Origin terminal / ramp <span class="req">*</span></label>
+                <select id="origin" name="origin" required data-review="Origin">
+                  <option value="">Select</option>
+                  <optgroup label="Port of Virginia"><option>Norfolk International Terminals (NIT)</option><option>Virginia International Gateway (VIG)</option><option>Portsmouth Marine Terminal (PMT)</option><option>Newport News Marine Terminal (NNMT)</option><option>Richmond Marine Terminal (RMT)</option><option>Virginia Inland Port (VIP - Front Royal)</option></optgroup>
+                  <optgroup label="Rail ramps"><option>Norfolk Southern - Norfolk</option><option>CSX - Portsmouth</option><option>Other rail ramp</option></optgroup>
+                  <optgroup label="Other"><option>Shipper facility (export pickup)</option><option>Other / not sure</option></optgroup>
+                </select>
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <label for="delivery_type">Delivery type <span class="req">*</span></label>
+                <select id="delivery_type" name="delivery_type" required data-review="Delivery type"><option value="">Select</option><option>Live unload / load</option><option>Drop &amp; hook (chassis stays)</option><option>Drop &amp; pick (return next day)</option><option>Not sure</option></select>
+                <span class="error"></span>
+              </div>
+              <div class="field field--full">
+                <label for="dest_address">Destination address <span class="req">*</span></label>
+                <input id="dest_address" name="dest_address" type="text" placeholder="Street address or facility name" required data-review="Destination">
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <label for="dest_city">City <span class="req">*</span></label>
+                <input id="dest_city" name="dest_city" type="text" required data-review="City">
+                <span class="error"></span>
+              </div>
+              <div class="fields" style="gap:12px">
+                <div class="field">
+                  <label for="dest_state">State <span class="req">*</span></label>
+                  <select id="dest_state" name="dest_state" required data-review="State"><option value="">--</option><option>VA</option><option>MD</option><option>DC</option><option>NC</option><option>PA</option><option>NJ</option><option>NY</option><option>DE</option><option>WV</option><option>OH</option><option>IN</option><option>IL</option><option>MI</option><option>KY</option><option>TN</option><option>SC</option><option>GA</option><option>CT</option><option>MA</option><option>Other</option></select>
+                  <span class="error"></span>
+                </div>
+                <div class="field">
+                  <label for="dest_zip">ZIP <span class="req">*</span></label>
+                  <input id="dest_zip" name="dest_zip" type="text" inputmode="numeric" placeholder="23320" required data-validate="zip" data-review="ZIP">
+                  <span class="error"></span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="ready_date">Container available / ready date</label>
+                <input id="ready_date" name="ready_date" type="date" data-review="Ready date">
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <label for="deadline">Last free day / cut-off <span class="opt">if known</span></label>
+                <input id="deadline" name="deadline" type="date" data-review="LFD / cut-off">
+                <span class="error"></span>
+              </div>
+              <div class="field field--full">
+                <label for="receiving_hours">Receiving hours &amp; appointment notes</label>
+                <input id="receiving_hours" name="receiving_hours" type="text" placeholder="e.g. Mon-Fri 7a-3p, appointment required, dock 12" data-review="Receiving notes">
+              </div>
+            </div>
+            <div class="form-actions"><button type="button" class="btn btn--ghost" data-prev><svg class="arrow" style="transform:none" aria-hidden="true"><use href="#i-arrow-left"/></svg><span class="btn__text">Back</span></button><button type="button" class="btn btn--dark" data-next><span class="btn__text">Continue to contact</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+          </fieldset>
+
+          <!-- Step 3 -->
+          <fieldset class="step-panel" data-step="3" style="border:0;padding:0;margin:0;min-width:0">
+            <legend class="form-section__head" style="padding:0;margin-bottom:24px"><div class="form-section__num">03</div><div><h2>Your contact information</h2><p>Where should we send the rate?</p></div></legend>
+            <div class="fields">
+              <div class="field"><label for="company">Company <span class="req">*</span></label><input id="company" name="company" type="text" autocomplete="organization" required data-review="Company"><span class="error"></span></div>
+              <div class="field"><label for="customer_type">You are a <span class="req">*</span></label><select id="customer_type" name="customer_type" required data-review="Customer type"><option value="">Select</option><option>Importer / BCO</option><option>Exporter / shipper</option><option>Freight forwarder / NVOCC</option><option>Freight broker</option><option>3PL</option><option>Customs broker</option><option>Other</option></select><span class="error"></span></div>
+              <div class="field"><label for="contact_name">Full name <span class="req">*</span></label><input id="contact_name" name="contact_name" type="text" autocomplete="name" required data-review="Contact"><span class="error"></span></div>
+              <div class="field"><label for="title">Title / role</label><input id="title" name="title" type="text" autocomplete="organization-title" placeholder="Logistics Manager" data-review="Title"></div>
+              <div class="field"><label for="email">Work email <span class="req">*</span></label><input id="email" name="email" type="email" autocomplete="email" required data-validate="email" data-review="Email"><span class="error"></span></div>
+              <div class="field"><label for="phone">Phone <span class="req">*</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(703) 555-0100" required data-validate="phone" data-review="Phone"><span class="error"></span></div>
+              <div class="field field--full"><label for="notes">Anything else we should know?</label><textarea id="notes" name="notes" placeholder="Customs status, seal requirements, multiple stops, target rate, etc." data-review="Notes"></textarea></div>
+              <div class="field field--full">
+                <span class="label">Attach a delivery order or booking <span class="opt">optional, PDF/JPG/PNG up to 10 MB</span></span>
+                <div class="upload">
+                  <input type="file" name="documents" accept=".pdf,.jpg,.jpeg,.png" multiple aria-label="Attach documents">
+                  <div class="upload__icon"><svg aria-hidden="true"><use href="#i-upload"/></svg></div>
+                  <strong>Drop files here or click to browse</strong><span>Delivery order, booking confirmation, packing list</span>
+                </div>
+                <div class="upload__list"></div>
+              </div>
+            </div>
+            <div class="form-actions"><button type="button" class="btn btn--ghost" data-prev><svg class="arrow" style="transform:none" aria-hidden="true"><use href="#i-arrow-left"/></svg><span class="btn__text">Back</span></button><button type="button" class="btn btn--dark" data-next><span class="btn__text">Review request</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+          </fieldset>
+
+          <!-- Step 4 -->
+          <fieldset class="step-panel" data-step="review" style="border:0;padding:0;margin:0;min-width:0">
+            <legend class="form-section__head" style="padding:0;margin-bottom:24px"><div class="form-section__num">04</div><div><h2>Review &amp; send</h2><p>Check the details, then send it to dispatch.</p></div></legend>
+            <div class="review-list" aria-live="polite"></div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:16px"><button type="button" class="link-arrow" data-goto="0" style="font-size:.85rem">Edit shipment</button><button type="button" class="link-arrow" data-goto="1" style="font-size:.85rem">Edit route</button><button type="button" class="link-arrow" data-goto="2" style="font-size:.85rem">Edit contact</button></div>
+            <div class="field" style="margin-top:24px">
+              <label class="check"><input type="checkbox" name="consent" value="yes" required><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>I agree to be contacted by National Dray Haulers about this request and have read the <a href="/privacy-policy/" style="text-decoration:underline;margin-left:4px">privacy policy</a>.</label>
+              <span class="error"></span>
+            </div>
+            <div class="form-msg" role="alert"></div>
+            <div class="form-actions"><button type="button" class="btn btn--ghost" data-prev><svg class="arrow" style="transform:none" aria-hidden="true"><use href="#i-arrow-left"/></svg><span class="btn__text">Back</span></button><button type="submit" class="btn btn--primary btn--lg"><span class="spinner" aria-hidden="true"></span><span class="btn__text">Send Quote Request</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+          </fieldset>
+
+          <div class="form-success" aria-live="polite">
+            <div class="form-success__icon"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+            <h2>Quote request received.</h2>
+            <p>A dispatcher is reviewing your lane now. Expect an all-in rate by email within the hour during business hours, or first thing next morning for overnight requests.</p>
+            <span class="ref">Reference <strong data-ref></strong></span>
+            <div class="actions"><a class="btn btn--dark" href="/credit-application/">Apply for Credit Terms</a><a class="btn btn--ghost" href="/">Back to Home</a></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer -->
+  <script type="module" src="/src/js/main.js"></script>
+  <script type="module">
+    // Preselect the move type from ?service= links on the services page
+    const s = new URLSearchParams(location.search).get('service');
+    if (s) { const r = document.querySelector(`input[name="move_type"][value="${s}"]`); if (r) r.checked = true; }
+  </script>
+</body>
+</html>

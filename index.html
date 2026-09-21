@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--#include head title="Port of Virginia Container Drayage & Intermodal Trucking" description="National Dray Haulers is a Virginia-based intermodal drayage carrier moving import and export containers from Norfolk International Terminals, VIG and PMT to customers across the Mid-Atlantic, Northeast, Midwest and Southeast. 24/7 dispatch. Call (703) 200-1393." path="/" -->
+  <link rel="preload" as="image" href="/images/cranes-stacks-1600.webp" fetchpriority="high">
+</head>
+<body data-page="home">
+  <!--#include shell -->
+  <!--#include icons -->
+  <!--#include header theme="dark" -->
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__media" aria-hidden="true">
+        <img src="/images/cranes-stacks-1600.webp" srcset="/images/cranes-stacks-800.webp 800w, /images/cranes-stacks-1600.webp 1600w" sizes="100vw" alt="" width="1600" height="2397" fetchpriority="high" decoding="async">
+      </div>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <div class="hero__badges">
+            <span class="badge badge--outline"><span class="dot"></span>24/7 Dispatch</span>
+            <span class="badge badge--outline">UIIA Carrier</span>
+            <span class="badge badge--outline">TWIC-Credentialed Drivers</span>
+          </div>
+          <h1 class="hero__title" id="hero-title" data-split data-split-delay="0.2">Port-to-door container drayage, <span class="accent">engineered</span> for the Mid-Atlantic.</h1>
+          <p class="hero__lead">National Dray Haulers moves import and export containers between the Port of Virginia terminals, rail ramps and your dock &mdash; with company drivers, owned chassis and a dispatch desk that never closes. From Norfolk to Richmond, DC, Philadelphia, Chicago and beyond.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="/request-a-quote/" data-magnetic><span class="btn__text">Request a Quote</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--outline-light btn--lg" href="/credit-application/" data-magnetic><span class="btn__text">Credit Application</span></a>
+            <a class="hero__phone" href="tel:+17032001393">Dispatch <strong>(703) 200-1393</strong></a>
+          </div>
+        </div>
+        <aside class="lane-board" aria-label="Sample drayage lanes from the Port of Virginia">
+          <div class="lane-board__head"><span>Lane board</span><span class="live">Live capacity</span></div>
+          <div class="lane-board__row"><span class="lane"><svg aria-hidden="true"><use href="#i-truck"/></svg><span>NIT &rarr; Richmond, VA</span></span><span class="miles">95 mi</span><span class="eta">Same day</span></div>
+          <div class="lane-board__row"><span class="lane"><svg aria-hidden="true"><use href="#i-truck"/></svg><span>VIG &rarr; Washington, DC</span></span><span class="miles">195 mi</span><span class="eta">Same day</span></div>
+          <div class="lane-board__row"><span class="lane"><svg aria-hidden="true"><use href="#i-truck"/></svg><span>PMT &rarr; Baltimore, MD</span></span><span class="miles">235 mi</span><span class="eta">Same day</span></div>
+          <div class="lane-board__row"><span class="lane"><svg aria-hidden="true"><use href="#i-truck"/></svg><span>NIT &rarr; Charlotte, NC</span></span><span class="miles">330 mi</span><span class="eta">Next day</span></div>
+          <div class="lane-board__foot">Rates quoted within the hour, Mon&ndash;Sat. Overweight, hazmat and reefer capacity on request.</div>
+        </aside>
+      </div>
+      <div class="hero__bottom">
+        <div class="container hero__stats">
+          <div class="hero__stat"><strong><span data-counter="98.6" data-suffix="%">0</span></strong><span>On-time delivery</span></div>
+          <div class="hero__stat"><strong><span data-counter="42000" data-suffix="+">0</span></strong><span>Containers moved annually</span></div>
+          <div class="hero__stat"><strong><span data-counter="6">0</span> terminals</strong><span>Port of Virginia &amp; inland</span></div>
+          <div class="hero__stat"><strong><span data-counter="17">0</span> states</strong><span>Direct drayage coverage</span></div>
+        </div>
+        <div class="hero__scroll" aria-hidden="true">Scroll<span></span></div>
+      </div>
+    </section>
+
+    <!-- ================= TRUST BAND ================= -->
+    <div class="trust-band" aria-label="Credentials">
+      <div class="marquee" data-marquee="50">
+        <div class="marquee__track">
+          <span class="marquee__item">UIIA Participating Carrier <span class="sep"></span></span>
+          <span class="marquee__item">TWIC-Credentialed Drivers <span class="sep"></span></span>
+          <span class="marquee__item">FMCSA Authorized Motor Carrier <span class="sep"></span></span>
+          <span class="marquee__item">Norfolk International Terminals <span class="sep"></span></span>
+          <span class="marquee__item">Virginia International Gateway <span class="sep"></span></span>
+          <span class="marquee__item">Portsmouth Marine Terminal <span class="sep"></span></span>
+          <span class="marquee__item">Richmond Marine Terminal <span class="sep"></span></span>
+          <span class="marquee__item">Virginia Inland Port <span class="sep"></span></span>
+          <span class="marquee__item">Overweight &amp; Hazmat Capable <span class="sep"></span></span>
+          <span class="marquee__item">Tri-Axle Chassis Fleet <span class="sep"></span></span>
+          <span class="marquee__item">Norfolk Southern &amp; CSX Ramps <span class="sep"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= STATEMENT ================= -->
+    <section class="section section--grid" aria-labelledby="statement-title">
+      <div class="container">
+        <div class="split split--wide">
+          <div>
+            <p class="eyebrow" data-reveal>Intermodal drayage, done properly</p>
+            <h2 class="statement" id="statement-title" data-words>Every container that lands at Hampton Roads has a clock on it. <span class="accent">Free time, chassis days, appointment windows, rail cut-offs.</span> We built NDH to beat that clock &mdash; with terminal-fluent dispatchers, drivers who know the gates, and equipment we control.</h2>
+          </div>
+          <div class="stack" data-reveal data-reveal-delay="0.2">
+            <p class="lead">NDH is an asset-based drayage carrier headquartered in Virginia. We are at the Port of Virginia every day, pulling loaded imports, returning empties, positioning exports for vessel cut-off and shuttling boxes to the Norfolk Southern and CSX intermodal ramps.</p>
+            <p class="lead">Our lanes run from the Hampton Roads terminals throughout Virginia, up the I-95 corridor to Baltimore, Philadelphia and New Jersey, west along I-64 and I-70 into Ohio, Indiana and Illinois, and south through the Carolinas into Georgia and Tennessee.</p>
+            <a class="link-arrow" href="/about/">Our story <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SERVICES ================= -->
+    <section class="section section--alt" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Services</p>
+            <h2 class="h2" id="services-title" data-split>Container transportation built around the terminal, the ramp and your dock.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15">
+            <p class="lead">One carrier for every leg between the vessel and the receiver. We handle the interchange, the chassis, the appointments and the empty return so your team only manages exceptions.</p>
+            <a class="link-arrow" href="/services/">All services <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+        <div class="grid grid--3">
+          <a class="service-card" href="/services/#import" data-tilt="6">
+            <div class="service-card__img"><img src="/images/crane-container-800.webp" alt="" loading="lazy" decoding="async" width="800" height="1199"></div>
+            <div class="service-card__glare"></div>
+            <span class="service-card__index">01 / Import</span>
+            <div class="service-card__icon"><svg aria-hidden="true"><use href="#i-import"/></svg></div>
+            <h3>Import Drayage</h3>
+            <p>Loaded container pickup from NIT, VIG and PMT with appointment management, per diem avoidance and live-unload or drop-and-hook delivery across the region.</p>
+            <span class="service-card__link">Learn more <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="service-card" href="/services/#export" data-tilt="6">
+            <div class="service-card__img"><img src="/images/ever-legend-800.webp" alt="" loading="lazy" decoding="async" width="800" height="533"></div>
+            <div class="service-card__glare"></div>
+            <span class="service-card__index">02 / Export</span>
+            <div class="service-card__icon"><svg aria-hidden="true"><use href="#i-export"/></svg></div>
+            <h3>Export Drayage</h3>
+            <p>Empty pickup, shipper loading and in-gate before vessel cut-off. We track ERD, VGM and booking status so exports never miss the ship.</p>
+            <span class="service-card__link">Learn more <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="service-card" href="/services/#transload" data-tilt="6">
+            <div class="service-card__img"><img src="/images/container-doors-800.webp" alt="" loading="lazy" decoding="async" width="800" height="522"></div>
+            <div class="service-card__glare"></div>
+            <span class="service-card__index">03 / Transload</span>
+            <div class="service-card__icon"><svg aria-hidden="true"><use href="#i-transload"/></svg></div>
+            <h3>Transloading &amp; Cross-Dock</h3>
+            <p>Container-to-trailer transloads near the port for palletizing, floor-loaded freight, split deliveries and long-haul handoffs to 53' dry vans.</p>
+            <span class="service-card__link">Learn more <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="service-card" href="/services/#overweight" data-tilt="6">
+            <div class="service-card__img"><img src="/images/maersk-stack-800.webp" alt="" loading="lazy" decoding="async" width="800" height="525"></div>
+            <div class="service-card__glare"></div>
+            <span class="service-card__index">04 / Specialized</span>
+            <div class="service-card__icon"><svg aria-hidden="true"><use href="#i-alert"/></svg></div>
+            <h3>Overweight &amp; Hazmat</h3>
+            <p>Tri-axle chassis, Virginia overweight permits and hazmat-endorsed drivers for heavy commodities, chemicals and regulated cargo.</p>
+            <span class="service-card__link">Learn more <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="service-card" href="/services/#rail" data-tilt="6">
+            <div class="service-card__img"><img src="/images/yard-stackers-800.webp" alt="" loading="lazy" decoding="async" width="800" height="536"></div>
+            <div class="service-card__glare"></div>
+            <span class="service-card__index">05 / Intermodal</span>
+            <div class="service-card__icon"><svg aria-hidden="true"><use href="#i-rail"/></svg></div>
+            <h3>Rail Ramp Drayage</h3>
+            <p>Ramp-to-door and door-to-ramp moves at Norfolk Southern and CSX intermodal terminals, plus port-to-rail shuttles for inland routing.</p>
+            <span class="service-card__link">Learn more <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+          <a class="service-card" href="/services/#storage" data-tilt="6">
+            <div class="service-card__img"><img src="/images/containers-stacked-800.webp" alt="" loading="lazy" decoding="async" width="800" height="532"></div>
+            <div class="service-card__glare"></div>
+            <span class="service-card__index">06 / Yard</span>
+            <div class="service-card__icon"><svg aria-hidden="true"><use href="#i-chassis"/></svg></div>
+            <h3>Container Storage &amp; Chassis</h3>
+            <p>Secure yard storage for loaded and empty boxes, owned chassis to avoid pool shortages, and street-turn matching to cut empty miles.</p>
+            <span class="service-card__link">Learn more <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SERVICE AREA MAP ================= -->
+    <section class="section section--dark section--grid map-section" id="service-area" aria-labelledby="map-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Service areas</p>
+            <h2 class="h2" id="map-title" data-split>From the Port of Virginia to the Mid-Atlantic, Northeast, Midwest and Southeast.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15">
+            <p class="lead">Same-day service across Virginia, DC, Maryland and the Carolinas. Next-day into Pennsylvania, New Jersey, Ohio and Georgia. Two-day coverage to Chicago, Detroit, Nashville and St. Louis &mdash; on our own trucks.</p>
+            <a class="link-arrow" href="/service-areas/">Explore service areas <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <div class="map-canvas" id="service-map" data-reveal>
+            <div class="map-tooltip" id="map-tooltip" role="tooltip"></div>
+          </div>
+          <div class="map-legend" id="map-legend" data-reveal-stagger>
+            <button type="button" class="map-legend__item" data-region="virginia"><span class="num">01</span><span class="name">Hampton Roads &amp; Virginia<small>Richmond, Front Royal, Roanoke, Lynchburg</small></span><span class="eta">Same day</span></button>
+            <button type="button" class="map-legend__item" data-region="mid-atlantic"><span class="num">02</span><span class="name">Mid-Atlantic<small>DC, Baltimore, Harrisburg, Philadelphia, Delaware</small></span><span class="eta">Same / next day</span></button>
+            <button type="button" class="map-legend__item" data-region="northeast"><span class="num">03</span><span class="name">Northeast<small>Newark, New York, Connecticut, Boston</small></span><span class="eta">1&ndash;2 days</span></button>
+            <button type="button" class="map-legend__item" data-region="midwest"><span class="num">04</span><span class="name">Midwest<small>Pittsburgh, Columbus, Indianapolis, Chicago, Detroit</small></span><span class="eta">1&ndash;2 days</span></button>
+            <button type="button" class="map-legend__item" data-region="southeast"><span class="num">05</span><span class="name">Southeast<small>Raleigh, Charlotte, Atlanta, Nashville, Savannah</small></span><span class="eta">1&ndash;2 days</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WHY NDH ================= -->
+    <section class="section" id="why" aria-labelledby="why-title">
+      <div class="container">
+        <div class="split split--wide">
+          <div class="image-stack">
+            <div class="media media--ratio-4x5" data-mask-reveal data-parallax="0.12">
+              <img src="/images/yard-crane-1600.webp" srcset="/images/yard-crane-800.webp 800w, /images/yard-crane-1600.webp 1600w" sizes="(max-width: 1000px) 100vw, 50vw" alt="Rubber-tired gantry crane lifting a container onto a drayage chassis at a container yard" loading="lazy" decoding="async" width="1600" height="1066">
+              <div class="media__caption"><span>Norfolk International Terminals</span><span class="dot"></span></div>
+            </div>
+            <div class="image-stack__float media" data-reveal data-reveal-delay="0.3">
+              <img src="/images/drayage-yard-aerial-800.webp" alt="Aerial view of drayage tractors queued in a container yard" loading="lazy" decoding="async" width="800" height="533">
+            </div>
+            <div class="image-stack__card" data-reveal data-reveal-delay="0.45">
+              <div class="ico"><svg aria-hidden="true"><use href="#i-clock"/></svg></div>
+              <div><strong>Avg. 47 min terminal turn</strong><span>Trailing 90 days, NIT &amp; VIG</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow" data-reveal>Why NDH</p>
+            <h2 class="h2" id="why-title" data-split>The carrier that treats free time like it is your money. Because it is.</h2>
+            <p class="lead" data-reveal>Demurrage, per diem and chassis rental erode margins faster than freight rates ever will. Everything about how we operate &mdash; from dispatch to equipment to visibility &mdash; exists to keep your containers moving and your accessorials at zero.</p>
+            <div class="feature-list" data-reveal-stagger style="margin-top:36px">
+              <div class="feature-row">
+                <div class="feature-row__icon"><svg aria-hidden="true"><use href="#i-chassis"/></svg></div>
+                <div><h3>Owned chassis, no pool roulette</h3><p>Our own 20', 40' and tri-axle chassis fleet means we are never waiting on a pool that ran dry, and you are never paying for a chassis we could not find.</p></div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-row__icon"><svg aria-hidden="true"><use href="#i-eye"/></svg></div>
+                <div><h3>Real visibility, not a tracking link</h3><p>Terminal availability, appointment confirmations, gate-out, delivery and empty return &mdash; every milestone posted to your team the moment it happens.</p></div>
+              </div>
+              <div class="feature-row">
+                <div class="feature-row__icon"><svg aria-hidden="true"><use href="#i-radio"/></svg></div>
+                <div><h3>Dispatch that answers at 2 a.m.</h3><p>Vessels do not discharge on a nine-to-five schedule, and neither do we. A live dispatcher picks up the phone 24/7/365.</p></div>
+              </div>
+            </div>
+            <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap" data-reveal>
+              <a class="btn btn--dark" href="/why-ndh/" data-magnetic><span class="btn__text">Why shippers choose NDH</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            </div>
+          </div>
+        </div>
+        <div class="stat-grid" style="margin-top:clamp(56px,7vw,96px)" data-reveal>
+          <div class="stat-tile"><strong><span data-counter="0.4" data-suffix="%">0</span></strong><span>Loads incurring per diem or demurrage attributable to NDH (2025)</span></div>
+          <div class="stat-tile"><strong><span data-counter="24" data-suffix="/7">0</span></strong><span>Live dispatch coverage, including holidays and vessel surges</span></div>
+          <div class="stat-tile"><strong><span data-counter="140" data-suffix="+">0</span></strong><span>Company chassis across standard, tri-axle and slider configurations</span></div>
+          <div class="stat-tile"><strong><span data-counter="11">0</span> yrs</strong><span>Average dispatcher tenure working Port of Virginia terminals</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROCESS (horizontal) ================= -->
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="process__pin">
+        <div class="container process__head">
+          <p class="eyebrow eyebrow--light" data-reveal>Port to delivery</p>
+          <h2 class="h2" id="process-title" data-split style="max-width:18ch">How a container moves with NDH.</h2>
+        </div>
+        <div class="process__track">
+          <article class="process__step">
+            <div class="media" aria-hidden="true"><img src="/images/ship-night-800.webp" alt="" loading="lazy" decoding="async" width="800" height="539"></div>
+            <span class="num">01</span><span class="phase">Booking</span>
+            <h3>Tender &amp; documentation</h3>
+            <p>Send the delivery order, booking or rail billing. We verify freight release, customs status, container availability and free-time expiry before a truck ever rolls.</p>
+            <ul><li>DO / Booking</li><li>Customs release</li><li>Free time audit</li></ul>
+          </article>
+          <article class="process__step">
+            <div class="media" aria-hidden="true"><img src="/images/crane-night-800.webp" alt="" loading="lazy" decoding="async" width="800" height="533"></div>
+            <span class="num">02</span><span class="phase">Terminal</span>
+            <h3>Appointment &amp; gate-in</h3>
+            <p>Dispatch secures the earliest appointment window at NIT, VIG or PMT, assigns a TWIC-credentialed driver and stages the correct chassis for the box.</p>
+            <ul><li>Truck reservation</li><li>Chassis assignment</li><li>Driver dispatch</li></ul>
+          </article>
+          <article class="process__step">
+            <div class="media" aria-hidden="true"><img src="/images/crane-container-800.webp" alt="" loading="lazy" decoding="async" width="800" height="1199"></div>
+            <span class="num">03</span><span class="phase">Interchange</span>
+            <h3>Pickup &amp; gate-out</h3>
+            <p>Container is inspected, seal verified and interchange recorded at the out-gate. Your team receives the gate-out notification with EIR and seal photo within minutes.</p>
+            <ul><li>Seal verification</li><li>EIR capture</li><li>Gate-out alert</li></ul>
+          </article>
+          <article class="process__step">
+            <div class="media" aria-hidden="true"><img src="/images/port-dusk-wide-800.webp" alt="" loading="lazy" decoding="async" width="800" height="533"></div>
+            <span class="num">04</span><span class="phase">Line haul</span>
+            <h3>Drayage to destination</h3>
+            <p>GPS-tracked transit to your dock, DC or transload facility. Same-day across Virginia and the Mid-Atlantic, next-day into the Northeast and Midwest.</p>
+            <ul><li>Live GPS</li><li>ETA updates</li><li>Overweight routing</li></ul>
+          </article>
+          <article class="process__step">
+            <div class="media" aria-hidden="true"><img src="/images/container-doors-800.webp" alt="" loading="lazy" decoding="async" width="800" height="522"></div>
+            <span class="num">05</span><span class="phase">Delivery</span>
+            <h3>Unload &amp; empty return</h3>
+            <p>Live unload or drop-and-hook, signed POD captured on delivery. We return the empty within the free-time window or match it to an export street turn.</p>
+            <ul><li>POD same day</li><li>Empty return</li><li>Street turn</li></ul>
+          </article>
+          <article class="process__step process__step--end">
+            <h3>Ready to move your first box?</h3>
+            <p>Quotes are returned within the hour during business hours. Credit terms available for approved accounts.</p>
+            <a class="btn btn--white" href="/request-a-quote/" style="margin-top:24px" data-magnetic><span class="btn__text">Request a Quote</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </article>
+        </div>
+        <div class="process__progress"><span></span></div>
+        <div class="process__hint"><span>Scroll to advance</span><span>05 milestones</span></div>
+      </div>
+    </section>
+
+    <!-- ================= BROKERS / CUSTOMERS ================= -->
+    <section class="section section--navy" id="partners" aria-labelledby="partners-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Who we work with</p>
+            <h2 class="h2" id="partners-title" data-split>Built for BCOs, forwarders, brokers and 3PLs who cannot afford a missed box.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15">
+            <p class="lead">Whether you tender ten containers a month or three hundred a week, you get the same dispatcher, the same equipment standard and the same milestone reporting.</p>
+          </div>
+        </div>
+        <div class="grid grid--4" data-reveal-stagger>
+          <div class="partner-card">
+            <span class="kicker">Beneficial cargo owners</span>
+            <h3>Importers &amp; Manufacturers</h3>
+            <p>Dedicated capacity for recurring inbound programs, with delivery windows aligned to your receiving schedule and consolidated weekly invoicing.</p>
+            <ul><li>Dedicated driver assignments</li><li>Receiving-window scheduling</li><li>Per diem management</li></ul>
+          </div>
+          <div class="partner-card">
+            <span class="kicker">Freight forwarders &amp; NVOCCs</span>
+            <h3>Forwarders</h3>
+            <p>A drayage partner that speaks your language: DO cut-offs, LFD, customs holds, VGM and vessel schedules handled without hand-holding.</p>
+            <ul><li>EDI / API status feeds</li><li>Export cut-off management</li><li>Multi-terminal coverage</li></ul>
+          </div>
+          <div class="partner-card">
+            <span class="kicker">Freight brokers</span>
+            <h3>Brokers &amp; 3PLs</h3>
+            <p>Reliable Port of Virginia capacity to back your commitments. Fast rate confirmations, clean paperwork and a carrier packet that passes compliance.</p>
+            <ul><li>Same-hour rate quotes</li><li>Carrier packet on file</li><li>Quick-pay available</li></ul>
+          </div>
+          <div class="partner-card">
+            <span class="kicker">Distribution &amp; retail</span>
+            <h3>Distribution Centers</h3>
+            <p>High-volume DC drayage with drop-and-hook programs, yard shuttles and container staging so your doors stay productive.</p>
+            <ul><li>Drop trailer / chassis pools</li><li>Yard shuttle programs</li><li>Peak season surge capacity</li></ul>
+          </div>
+        </div>
+        <div class="cta-strip" style="margin-top:clamp(48px,6vw,80px)" data-reveal>
+          <div>
+            <h2>Open a credit account with NDH.</h2>
+            <p>Approved accounts receive net terms, consolidated invoicing and a dedicated account dispatcher. Most applications are reviewed within two business days.</p>
+          </div>
+          <div class="cta-strip__actions">
+            <a class="btn btn--white" href="/credit-application/" data-magnetic><span class="btn__text">Start Credit Application</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--outline-light" href="/contact/" data-magnetic><span class="btn__text">Talk to Sales</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CREDENTIALS ================= -->
+    <section class="section section--alt" id="credentials" aria-labelledby="creds-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Credentials &amp; compliance</p>
+            <h2 class="h2" id="creds-title" data-split>Credentialed for every gate. Insured for every load.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15">
+            <p class="lead">Our compliance documents, insurance certificates and carrier packet are available on request for onboarding with your TMS or compliance provider.</p>
+          </div>
+        </div>
+        <div class="cred-grid" data-reveal-stagger>
+          <div class="cred"><div class="cred__icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></div><h3>FMCSA Authority</h3><p>Active interstate motor carrier authority with USDOT and MC numbers, satisfactory safety rating and current BOC-3 filing.</p><span class="mono">USDOT &amp; MC on carrier packet</span></div>
+          <div class="cred"><div class="cred__icon"><svg aria-hidden="true"><use href="#i-anchor"/></svg></div><h3>UIIA Interchange</h3><p>Participating motor carrier under the Uniform Intermodal Interchange Agreement with active ocean carrier and chassis provider interchange.</p><span class="mono">UIIA participating carrier</span></div>
+          <div class="cred"><div class="cred__icon"><svg aria-hidden="true"><use href="#i-id"/></svg></div><h3>TWIC &amp; Port Credentials</h3><p>All drivers hold current TWIC cards and Port of Virginia truck credentials, with terminal reservation system access at NIT, VIG and PMT.</p><span class="mono">100% TWIC-credentialed drivers</span></div>
+          <div class="cred"><div class="cred__icon"><svg aria-hidden="true"><use href="#i-doc"/></svg></div><h3>Insurance &amp; Cargo</h3><p>$1M auto liability, $100K cargo coverage with reefer breakdown, and additional insured / waiver of subrogation endorsements available.</p><span class="mono">COI issued within 24 hours</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TESTIMONIALS ================= -->
+    <section class="section" id="testimonials" aria-labelledby="testimonials-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <div>
+            <p class="eyebrow" data-reveal>What customers say</p>
+            <h2 class="h2" id="testimonials-title" data-split>Trusted on the lanes that matter.</h2>
+          </div>
+        </div>
+        <div data-reveal>
+          <div class="tslider" id="tslider" tabindex="0" aria-roledescription="carousel" aria-label="Customer testimonials">
+            <div class="tslider__stage">
+              <article class="tcard" data-cursor="Drag">
+                <p class="tcard__quote">We moved our entire Port of Virginia program to NDH after two seasons of chassis shortages with our previous carrier. Per diem went from a line item to a rounding error.</p>
+                <div class="tcard__meta"><div class="tcard__avatar">MR</div><div><strong>Director of Logistics</strong><span>Home furnishings importer, Richmond, VA</span></div><span class="tcard__lane">NIT &rarr; Richmond<br>~180 FEU / month</span></div>
+              </article>
+              <article class="tcard" data-cursor="Drag">
+                <p class="tcard__quote">Their dispatch desk actually understands vessel cut-offs. When Maersk moved an ERD up by a day, NDH had our exports in-gated before we finished the email chain.</p>
+                <div class="tcard__meta"><div class="tcard__avatar">JK</div><div><strong>Export Operations Manager</strong><span>NVOCC, Northern Virginia</span></div><span class="tcard__lane">Shipper &rarr; VIG<br>Export program</span></div>
+              </article>
+              <article class="tcard" data-cursor="Drag">
+                <p class="tcard__quote">As a broker I need a Norfolk carrier that quotes fast and never makes me chase a POD. NDH sends gate-out and delivery photos before my customer thinks to ask.</p>
+                <div class="tcard__meta"><div class="tcard__avatar">AS</div><div><strong>Senior Carrier Sales Rep</strong><span>Freight brokerage, Charlotte, NC</span></div><span class="tcard__lane">PMT &rarr; Carolinas<br>Spot &amp; contract</span></div>
+              </article>
+              <article class="tcard" data-cursor="Drag">
+                <p class="tcard__quote">Overweight steel coils out of Norfolk to Ohio, permits and tri-axles included. One call, one invoice, zero surprises. That is what we needed.</p>
+                <div class="tcard__meta"><div class="tcard__avatar">DL</div><div><strong>Plant Purchasing Manager</strong><span>Metals processor, Columbus, OH</span></div><span class="tcard__lane">NIT &rarr; Columbus<br>Overweight lane</span></div>
+              </article>
+              <article class="tcard" data-cursor="Drag">
+                <p class="tcard__quote">Our DC runs on drop-and-hook. NDH keeps chassis staged in our yard so doors never sit idle waiting on a live unload. It changed how we plan receiving.</p>
+                <div class="tcard__meta"><div class="tcard__avatar">TP</div><div><strong>Distribution Center GM</strong><span>Consumer goods retailer, Harrisburg, PA</span></div><span class="tcard__lane">VIG &rarr; Harrisburg<br>Drop &amp; hook</span></div>
+              </article>
+            </div>
+          </div>
+          <div class="tslider__nav">
+            <button type="button" class="tslider__btn" data-prev aria-label="Previous testimonial"><svg aria-hidden="true"><use href="#i-arrow-left"/></svg></button>
+            <div class="tslider__dots" role="tablist" aria-label="Choose testimonial"></div>
+            <button type="button" class="tslider__btn" data-next aria-label="Next testimonial"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DRIVER CTA ================= -->
+    <section class="driver-cta" id="drivers" aria-labelledby="drivers-title">
+      <div class="driver-cta__media" aria-hidden="true">
+        <img src="/images/terminal-trucks-aerial-1600.webp" srcset="/images/terminal-trucks-aerial-800.webp 800w, /images/terminal-trucks-aerial-1600.webp 1600w" sizes="100vw" alt="" loading="lazy" decoding="async" width="1600" height="1076">
+      </div>
+      <div class="container driver-cta__inner">
+        <div>
+          <p class="eyebrow eyebrow--light" data-reveal>Work with us</p>
+          <h2 id="drivers-title" data-split>Drive port freight. Sleep in your own bed.</h2>
+          <p class="lead" data-reveal>NDH is hiring CDL-A company drivers and owner-operators for Port of Virginia drayage. Local and regional lanes, consistent freight, weekly settlements and equipment that is actually maintained.</p>
+          <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap" data-reveal>
+            <a class="btn btn--primary btn--lg" href="/drivers/" data-magnetic><span class="btn__text">Apply to Drive</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn--outline-light btn--lg" href="/drivers/#owner-operators" data-magnetic><span class="btn__text">Owner-Operator Program</span></a>
+          </div>
+        </div>
+        <div class="driver-perks" data-reveal-stagger>
+          <div class="driver-perk"><strong>Home daily</strong><span>Local port lanes across Hampton Roads and Richmond</span></div>
+          <div class="driver-perk"><strong>Weekly pay</strong><span>Direct deposit settlements every Friday, no exceptions</span></div>
+          <div class="driver-perk"><strong>No-touch freight</strong><span>Container drayage &mdash; you drive, the crane does the lifting</span></div>
+          <div class="driver-perk"><strong>Fuel &amp; plates</strong><span>Owner-operator fuel card, plate program and permit support</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

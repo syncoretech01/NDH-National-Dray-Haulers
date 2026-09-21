@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--#include head title="Credit Application: Open a Net-Terms Account" description="Apply for credit terms with National Dray Haulers. Submit business, ownership, accounts payable, bank and trade reference information plus supporting documents online. Most applications reviewed within two business days." path="/credit-application/" robots="noindex, follow" -->
+</head>
+<body data-page="credit">
+  <!--#include shell -->
+  <!--#include icons -->
+  <!--#include header theme="dark" -->
+
+  <main id="main">
+    <header class="page-hero" style="min-height:460px">
+      <div class="page-hero__media" aria-hidden="true">
+        <img src="/images/aerial-ships-1600.webp" srcset="/images/aerial-ships-800.webp 800w, /images/aerial-ships-1600.webp 1600w" sizes="100vw" alt="" width="1600" height="1066" fetchpriority="high" decoding="async">
+      </div>
+      <div class="container page-hero__inner">
+        <div>
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep"></span><span aria-current="page">Credit Application</span></nav>
+          <h1 data-split>Open a credit account with NDH.</h1>
+          <p class="lead" data-reveal>Approved accounts receive net-30 terms, consolidated weekly invoicing and a dedicated account dispatcher. Complete the application below and upload your W-9; our credit team reviews most applications within two business days.</p>
+        </div>
+        <div class="page-hero__aside" data-reveal data-reveal-delay="0.2">
+          <span class="badge badge--outline"><span class="dot"></span>Secure submission</span>
+          <span class="badge badge--outline">Reviewed in ~2 business days</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="section section--alt">
+      <div class="container form-shell">
+        <aside class="form-side">
+          <div class="form-side__card" data-reveal>
+            <h3>Application sections</h3>
+            <ol class="form-steps" data-spy>
+              <li><span class="n">1</span><a href="#sec-business">Business information</a></li>
+              <li><span class="n">2</span><a href="#sec-owners">Ownership &amp; officers</a></li>
+              <li><span class="n">3</span><a href="#sec-ap">Accounts payable</a></li>
+              <li><span class="n">4</span><a href="#sec-bank">Bank reference</a></li>
+              <li><span class="n">5</span><a href="#sec-trade">Trade references</a></li>
+              <li><span class="n">6</span><a href="#sec-docs">Documents</a></li>
+              <li><span class="n">7</span><a href="#sec-terms">Terms &amp; signature</a></li>
+            </ol>
+          </div>
+          <div class="form-side__card" data-reveal data-reveal-delay="0.1">
+            <h3>Have these ready</h3>
+            <ul>
+              <li>Federal EIN and legal entity details</li>
+              <li>Signed W-9 (PDF)</li>
+              <li>Three trade references</li>
+              <li>Bank contact for reference</li>
+              <li>An officer authorized to sign</li>
+            </ul>
+          </div>
+          <div class="form-side__card form-side__card--dark" data-reveal data-reveal-delay="0.2">
+            <h3>Questions about terms?</h3>
+            <p>Our accounting team can walk you through the application or accept it by email if you prefer a PDF.</p>
+            <a class="big" href="mailto:credit@nationaldrayhaulers.com">credit@nationaldrayhaulers.com</a>
+          </div>
+        </aside>
+
+        <form class="form-card" data-form="credit" id="credit-form" enctype="multipart/form-data" novalidate data-reveal>
+          <input type="text" name="_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+
+          <section class="form-section" id="sec-business" aria-labelledby="sec-business-title">
+            <div class="form-section__head"><div class="form-section__num">01</div><div><h2 id="sec-business-title">Business information</h2><p>Legal entity applying for credit.</p></div></div>
+            <div class="fields">
+              <div class="field"><label for="legal_name">Legal business name <span class="req">*</span></label><input id="legal_name" name="legal_name" type="text" autocomplete="organization" required><span class="error"></span></div>
+              <div class="field"><label for="dba">DBA / trade name <span class="opt">if different</span></label><input id="dba" name="dba" type="text"></div>
+              <div class="field"><label for="entity_type">Entity type <span class="req">*</span></label><select id="entity_type" name="entity_type" required><option value="">Select</option><option>Corporation (C-Corp)</option><option>S-Corporation</option><option>LLC</option><option>Partnership</option><option>Sole proprietorship</option><option>Non-profit</option><option>Government entity</option></select><span class="error"></span></div>
+              <div class="field"><label for="ein">Federal EIN <span class="req">*</span></label><input id="ein" name="ein" type="text" inputmode="numeric" placeholder="XX-XXXXXXX" required data-validate="ein"><span class="error"></span></div>
+              <div class="field"><label for="year_established">Year established <span class="req">*</span></label><input id="year_established" name="year_established" type="text" inputmode="numeric" placeholder="2012" required data-validate="year"><span class="error"></span></div>
+              <div class="field"><label for="state_inc">State of incorporation <span class="req">*</span></label><input id="state_inc" name="state_inc" type="text" placeholder="VA" required maxlength="2" style="text-transform:uppercase"><span class="error"></span></div>
+              <div class="field"><label for="website">Website</label><input id="website" name="website" type="url" placeholder="https://" autocomplete="url"></div>
+              <div class="field"><label for="business_type">Type of business <span class="req">*</span></label><select id="business_type" name="business_type" required><option value="">Select</option><option>Importer / BCO</option><option>Exporter / manufacturer</option><option>Freight forwarder / NVOCC</option><option>Freight broker</option><option>3PL / logistics provider</option><option>Customs broker</option><option>Retail / distribution</option><option>Other</option></select><span class="error"></span></div>
+              <div class="field field--full"><label for="biz_street">Business address <span class="req">*</span></label><input id="biz_street" name="biz_street" type="text" autocomplete="street-address" required><span class="error"></span></div>
+              <div class="field"><label for="biz_city">City <span class="req">*</span></label><input id="biz_city" name="biz_city" type="text" autocomplete="address-level2" required><span class="error"></span></div>
+              <div class="fields" style="gap:12px">
+                <div class="field"><label for="biz_state">State <span class="req">*</span></label><input id="biz_state" name="biz_state" type="text" maxlength="2" autocomplete="address-level1" required style="text-transform:uppercase"><span class="error"></span></div>
+                <div class="field"><label for="biz_zip">ZIP <span class="req">*</span></label><input id="biz_zip" name="biz_zip" type="text" inputmode="numeric" autocomplete="postal-code" required data-validate="zip"><span class="error"></span></div>
+              </div>
+              <div class="field field--full">
+                <label class="check"><input type="checkbox" name="mailing_same" value="yes" checked><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Mailing / billing address is the same as the business address</label>
+              </div>
+              <div class="field field--full" data-show-if="mailing_same=">
+                <label for="mail_address">Mailing / billing address</label><input id="mail_address" name="mail_address" type="text" placeholder="Street, city, state, ZIP">
+              </div>
+              <div class="field"><label for="volume">Estimated monthly container volume <span class="req">*</span></label><select id="volume" name="volume" required><option value="">Select</option><option>1-10 containers</option><option>11-50 containers</option><option>51-150 containers</option><option>151-400 containers</option><option>400+ containers</option></select><span class="error"></span></div>
+              <div class="field"><label for="credit_limit">Requested credit limit (USD) <span class="req">*</span></label><div class="prefix-wrap"><span class="prefix">$</span><input id="credit_limit" name="credit_limit" type="number" min="1000" step="500" placeholder="25000" required data-validate="number"></div><span class="error"></span></div>
+              <div class="field"><label for="terms_requested">Terms requested</label><select id="terms_requested" name="terms_requested"><option>Net 30 (standard)</option><option>Net 15</option><option>Net 45</option><option>Quick-pay (2% / 7 days)</option></select></div>
+              <div class="field"><label for="duns">D-U-N-S number <span class="opt">optional</span></label><input id="duns" name="duns" type="text" inputmode="numeric" placeholder="9 digits"></div>
+            </div>
+          </section>
+
+          <section class="form-section" id="sec-owners" aria-labelledby="sec-owners-title">
+            <div class="form-section__head"><div class="form-section__num">02</div><div><h2 id="sec-owners-title">Ownership &amp; officers</h2><p>List principals, partners or officers with 20% or more ownership, or the authorized officer for public companies.</p></div></div>
+            <div data-repeater data-min="1" data-max="4" data-label="Principal">
+              <template>
+                <div class="repeater__item">
+                  <h4><span>Principal</span><button type="button" data-remove>Remove</button></h4>
+                  <div class="fields fields--3">
+                    <div class="field"><label>Full name <span class="req">*</span></label><input name="owner[0][name]" type="text" required><span class="error"></span></div>
+                    <div class="field"><label>Title <span class="req">*</span></label><input name="owner[0][title]" type="text" placeholder="President, Managing Member" required><span class="error"></span></div>
+                    <div class="field"><label>Ownership %</label><input name="owner[0][pct]" type="number" min="0" max="100" placeholder="51"></div>
+                    <div class="field"><label>Email</label><input name="owner[0][email]" type="email" data-validate="email"><span class="error"></span></div>
+                    <div class="field"><label>Phone</label><input name="owner[0][phone]" type="tel" data-validate="phone"><span class="error"></span></div>
+                    <div class="field"><label>Home city / state</label><input name="owner[0][city]" type="text" placeholder="Fairfax, VA"></div>
+                  </div>
+                </div>
+              </template>
+              <div class="repeater"></div>
+              <button type="button" class="repeater__add"><svg aria-hidden="true"><use href="#i-plus"/></svg>Add another principal</button>
+            </div>
+          </section>
+
+          <section class="form-section" id="sec-ap" aria-labelledby="sec-ap-title">
+            <div class="form-section__head"><div class="form-section__num">03</div><div><h2 id="sec-ap-title">Accounts payable</h2><p>Who receives and pays our invoices?</p></div></div>
+            <div class="fields">
+              <div class="field"><label for="ap_name">AP contact name <span class="req">*</span></label><input id="ap_name" name="ap_name" type="text" required><span class="error"></span></div>
+              <div class="field"><label for="ap_title">Title</label><input id="ap_title" name="ap_title" type="text" placeholder="AP Specialist"></div>
+              <div class="field"><label for="ap_email">AP email <span class="req">*</span></label><input id="ap_email" name="ap_email" type="email" required data-validate="email"><span class="error"></span></div>
+              <div class="field"><label for="ap_phone">AP phone <span class="req">*</span></label><input id="ap_phone" name="ap_phone" type="tel" required data-validate="phone"><span class="error"></span></div>
+              <div class="field"><label for="invoice_method">Preferred invoice delivery <span class="req">*</span></label><select id="invoice_method" name="invoice_method" required><option value="">Select</option><option>Email (PDF)</option><option>AP portal (we will send login)</option><option>EDI 210</option><option>Mail</option></select><span class="error"></span></div>
+              <div class="field"><label for="invoice_freq">Invoice frequency</label><select id="invoice_freq" name="invoice_freq"><option>Per shipment</option><option>Weekly consolidated</option><option>Bi-weekly consolidated</option></select></div>
+              <div class="field field--full">
+                <span class="label">Billing requirements</span>
+                <div class="check-grid check-grid--3">
+                  <label class="check"><input type="checkbox" name="po_required" value="yes"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>PO number required on invoices</label>
+                  <label class="check"><input type="checkbox" name="pod_required" value="yes"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>POD must accompany invoice</label>
+                  <label class="check"><input type="checkbox" name="tax_exempt" value="yes"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>Tax exempt (certificate attached)</label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section" id="sec-bank" aria-labelledby="sec-bank-title">
+            <div class="form-section__head"><div class="form-section__num">04</div><div><h2 id="sec-bank-title">Bank reference</h2><p>We contact your bank only to confirm the relationship. Account numbers are not required.</p></div></div>
+            <div class="fields">
+              <div class="field"><label for="bank_name">Bank name <span class="req">*</span></label><input id="bank_name" name="bank_name" type="text" required><span class="error"></span></div>
+              <div class="field"><label for="bank_branch">Branch city / state</label><input id="bank_branch" name="bank_branch" type="text"></div>
+              <div class="field"><label for="bank_contact">Bank officer / contact</label><input id="bank_contact" name="bank_contact" type="text"></div>
+              <div class="field"><label for="bank_phone">Bank phone <span class="req">*</span></label><input id="bank_phone" name="bank_phone" type="tel" required data-validate="phone"><span class="error"></span></div>
+              <div class="field"><label for="bank_years">Years with this bank</label><input id="bank_years" name="bank_years" type="number" min="0" max="99"></div>
+              <div class="field"><label for="bank_type">Account type</label><select id="bank_type" name="bank_type"><option>Business checking</option><option>Checking + line of credit</option><option>Multiple accounts</option></select></div>
+            </div>
+          </section>
+
+          <section class="form-section" id="sec-trade" aria-labelledby="sec-trade-title">
+            <div class="form-section__head"><div class="form-section__num">05</div><div><h2 id="sec-trade-title">Trade references</h2><p>Three transportation or logistics vendors you currently pay on terms.</p></div></div>
+            <div data-repeater data-min="3" data-max="5" data-label="Reference">
+              <template>
+                <div class="repeater__item">
+                  <h4><span>Reference</span><button type="button" data-remove>Remove</button></h4>
+                  <div class="fields fields--3">
+                    <div class="field"><label>Company <span class="req">*</span></label><input name="ref[0][company]" type="text" required><span class="error"></span></div>
+                    <div class="field"><label>Contact name <span class="req">*</span></label><input name="ref[0][contact]" type="text" required><span class="error"></span></div>
+                    <div class="field"><label>Phone <span class="req">*</span></label><input name="ref[0][phone]" type="tel" required data-validate="phone"><span class="error"></span></div>
+                    <div class="field"><label>Email</label><input name="ref[0][email]" type="email" data-validate="email"><span class="error"></span></div>
+                    <div class="field"><label>Account since</label><input name="ref[0][since]" type="text" placeholder="2019" data-validate="year"><span class="error"></span></div>
+                    <div class="field"><label>Approx. monthly spend</label><input name="ref[0][spend]" type="text" placeholder="$15,000"></div>
+                  </div>
+                </div>
+              </template>
+              <div class="repeater"></div>
+              <button type="button" class="repeater__add"><svg aria-hidden="true"><use href="#i-plus"/></svg>Add another reference</button>
+            </div>
+          </section>
+
+          <section class="form-section" id="sec-docs" aria-labelledby="sec-docs-title">
+            <div class="form-section__head"><div class="form-section__num">06</div><div><h2 id="sec-docs-title">Supporting documents</h2><p>PDF, JPG, PNG, DOC or XLS files up to 10 MB each. Files are transmitted over an encrypted connection and stored in a restricted location.</p></div></div>
+            <div class="fields">
+              <div class="field">
+                <span class="label">Signed W-9 <span class="req">*</span></span>
+                <div class="upload"><input type="file" name="doc_w9" accept=".pdf,.jpg,.jpeg,.png" required aria-label="Upload W-9"><div class="upload__icon"><svg aria-hidden="true"><use href="#i-doc"/></svg></div><strong>Upload W-9</strong><span>Required &middot; PDF preferred</span></div>
+                <div class="upload__list"></div>
+                <span class="error"></span>
+              </div>
+              <div class="field">
+                <span class="label">Articles / business license <span class="opt">optional</span></span>
+                <div class="upload"><input type="file" name="doc_license" accept=".pdf,.jpg,.jpeg,.png" aria-label="Upload business license or articles"><div class="upload__icon"><svg aria-hidden="true"><use href="#i-doc"/></svg></div><strong>Upload license or articles</strong><span>Certificate of formation, SCC registration</span></div>
+                <div class="upload__list"></div>
+              </div>
+              <div class="field">
+                <span class="label">Tax exemption certificate <span class="opt">if applicable</span></span>
+                <div class="upload"><input type="file" name="doc_tax" accept=".pdf,.jpg,.jpeg,.png" aria-label="Upload tax exemption certificate"><div class="upload__icon"><svg aria-hidden="true"><use href="#i-doc"/></svg></div><strong>Upload certificate</strong><span>State resale or exemption form</span></div>
+                <div class="upload__list"></div>
+              </div>
+              <div class="field">
+                <span class="label">Financial statements or bank letter <span class="opt">optional, speeds review</span></span>
+                <div class="upload"><input type="file" name="doc_financials" accept=".pdf,.xls,.xlsx,.doc,.docx" multiple aria-label="Upload financial statements"><div class="upload__icon"><svg aria-hidden="true"><use href="#i-upload"/></svg></div><strong>Upload statements</strong><span>Up to 5 files</span></div>
+                <div class="upload__list"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section" id="sec-terms" aria-labelledby="sec-terms-title">
+            <div class="form-section__head"><div class="form-section__num">07</div><div><h2 id="sec-terms-title">Terms &amp; authorization</h2><p>Please read and sign. Typing your name constitutes an electronic signature under the federal E-SIGN Act.</p></div></div>
+            <div class="legal" style="font-size:.88rem;max-width:none;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--slate-50);max-height:220px;overflow:auto;margin-bottom:20px" data-lenis-prevent tabindex="0">
+              <p><strong>Credit terms.</strong> Upon approval, National Dray Haulers LLC ("NDH") will extend credit on the terms stated in the approval letter, typically net thirty (30) days from invoice date. Applicant agrees to pay all invoices in full by the due date without deduction or offset except for amounts disputed in writing within ten (10) days of the invoice date.</p>
+              <p><strong>Late payment.</strong> Balances not paid when due accrue a finance charge of 1.5% per month (18% per annum) or the maximum rate permitted by law, whichever is lower. Applicant is responsible for all reasonable costs of collection, including attorneys' fees, if an account is placed for collection.</p>
+              <p><strong>Accessorial charges.</strong> Applicant acknowledges responsibility for demurrage, per diem, chassis, storage, detention, tolls, permits and other accessorial charges incurred on its shipments in accordance with NDH's published accessorial schedule and any rate agreement in effect.</p>
+              <p><strong>Credit investigation.</strong> Applicant authorizes NDH to obtain credit reports and to contact the bank and trade references listed in this application, and authorizes those references to release information regarding Applicant's payment history. NDH may adjust or withdraw credit at any time in its discretion.</p>
+              <p><strong>Certification.</strong> The undersigned certifies that they are authorized to bind the Applicant, that the information provided is true and complete, and that the Applicant will notify NDH promptly of any material change in ownership, financial condition or contact information.</p>
+            </div>
+            <div class="fields">
+              <div class="field"><label for="sig_name">Authorized signer full name <span class="req">*</span></label><input id="sig_name" name="sig_name" type="text" required data-signature="#sig-preview" autocomplete="name"><span class="error"></span></div>
+              <div class="field"><label for="sig_title">Title <span class="req">*</span></label><input id="sig_title" name="sig_title" type="text" required placeholder="Controller, CFO, Owner"><span class="error"></span></div>
+              <div class="field"><label for="sig_email">Signer email <span class="req">*</span></label><input id="sig_email" name="sig_email" type="email" required data-validate="email"><span class="error"></span></div>
+              <div class="field"><label for="sig_date">Date</label><input id="sig_date" name="sig_date" type="date" readonly></div>
+              <div class="field field--full">
+                <div class="signature-box"><div class="sig" id="sig-preview"></div><small>Electronic signature preview. By typing your name you agree this is the legal equivalent of your handwritten signature.</small></div>
+              </div>
+              <div class="field field--full">
+                <label class="check"><input type="checkbox" name="sig_agree" value="yes" required><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>I have read and agree to the credit terms above, certify that the information is accurate, and authorize NDH to verify references and obtain credit reports on the Applicant.</label>
+                <span class="error"></span>
+              </div>
+              <div class="field field--full">
+                <label class="check"><input type="checkbox" name="guaranty" value="yes"><span class="box"><svg aria-hidden="true"><use href="#i-check"/></svg></span>I am willing to provide a personal guaranty if requested by NDH's credit team (common for businesses established less than three years).</label>
+              </div>
+            </div>
+            <div class="form-msg" role="alert"></div>
+            <div class="form-actions"><p>Submitting this application does not create an obligation for NDH to extend credit. You will receive a confirmation email with your reference number.</p><button type="submit" class="btn btn--primary btn--lg"><span class="spinner" aria-hidden="true"></span><span class="btn__text">Submit Application</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
+          </section>
+
+          <div class="form-success" aria-live="polite">
+            <div class="form-success__icon"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+            <h2>Application submitted.</h2>
+            <p>Thank you. Our credit team will review your application and references and respond within two business days. If we need anything else, we will reach out to the accounts payable contact you provided.</p>
+            <span class="ref">Reference <strong data-ref></strong></span>
+            <div class="actions"><a class="btn btn--dark" href="/request-a-quote/">Request a Quote</a><a class="btn btn--ghost" href="/">Back to Home</a></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer -->
+  <script type="module" src="/src/js/main.js"></script>
+  <script>document.getElementById('sig_date').value = new Date().toISOString().slice(0, 10);</script>
+</body>
+</html>

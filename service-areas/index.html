@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--#include head title="Service Areas: Port of Virginia Drayage to the Mid-Atlantic, Northeast, Midwest & Southeast" description="NDH provides container drayage from Norfolk, Portsmouth and Newport News to Richmond, Washington DC, Baltimore, Philadelphia, New Jersey, Pittsburgh, Columbus, Chicago, Charlotte, Atlanta and more. Transit times and terminal coverage." path="/service-areas/" -->
+</head>
+<body data-page="service-areas">
+  <!--#include shell -->
+  <!--#include icons -->
+  <!--#include header theme="dark" -->
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="page-hero__media" aria-hidden="true">
+        <img src="/images/terminal-sunset-aerial-1600.webp" srcset="/images/terminal-sunset-aerial-800.webp 800w, /images/terminal-sunset-aerial-1600.webp 1600w" sizes="100vw" alt="" width="1600" height="1079" fetchpriority="high" decoding="async">
+      </div>
+      <div class="container page-hero__inner">
+        <div>
+          <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span class="sep"></span><span aria-current="page">Service Areas</span></nav>
+          <h1 data-split>Port of Virginia outbound. Seventeen states inbound.</h1>
+          <p class="lead" data-reveal>Our drayage footprint radiates from Hampton Roads along I-64, I-95, I-81, I-77 and I-70 &mdash; same-day across Virginia and the Mid-Atlantic, next-day into the Northeast, Ohio Valley and Carolinas, and two-day service to Chicago, Detroit, Nashville and St. Louis.</p>
+          <div class="page-hero__stats" data-reveal-stagger>
+            <div class="page-hero__stat"><strong>17</strong><span>States served direct</span></div>
+            <div class="page-hero__stat"><strong>6</strong><span>Port of Virginia terminals</span></div>
+            <div class="page-hero__stat"><strong>900</strong><span>Mile max direct radius</span></div>
+          </div>
+        </div>
+        <div class="page-hero__aside" data-reveal data-reveal-delay="0.2">
+          <a class="btn btn--primary" href="/request-a-quote/" data-magnetic><span class="btn__text">Quote a Lane</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+      </div>
+    </header>
+
+    <section class="section section--dark section--grid map-section" aria-labelledby="map-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Interactive lane map</p>
+            <h2 class="h2" id="map-title" data-split>Every route starts at the port.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15"><p class="lead">Hover a destination for mileage and transit time. Select a region to trace its lanes. All routes shown are served on NDH company equipment.</p></div>
+        </div>
+        <div class="map-wrap">
+          <div class="map-canvas" id="service-map" data-reveal>
+            <div class="map-tooltip" id="map-tooltip" role="tooltip"></div>
+          </div>
+          <div class="map-legend" id="map-legend" data-reveal-stagger>
+            <button type="button" class="map-legend__item" data-region="virginia"><span class="num">01</span><span class="name">Hampton Roads &amp; Virginia<small>Norfolk, Richmond, Front Royal, Roanoke</small></span><span class="eta">Same day</span></button>
+            <button type="button" class="map-legend__item" data-region="mid-atlantic"><span class="num">02</span><span class="name">Mid-Atlantic<small>DC, Baltimore, Harrisburg, Philadelphia</small></span><span class="eta">Same / next day</span></button>
+            <button type="button" class="map-legend__item" data-region="northeast"><span class="num">03</span><span class="name">Northeast<small>Newark, New York, Boston</small></span><span class="eta">1&ndash;2 days</span></button>
+            <button type="button" class="map-legend__item" data-region="midwest"><span class="num">04</span><span class="name">Midwest<small>Pittsburgh to Chicago and St. Louis</small></span><span class="eta">1&ndash;2 days</span></button>
+            <button type="button" class="map-legend__item" data-region="southeast"><span class="num">05</span><span class="name">Southeast<small>Carolinas, Georgia, Tennessee</small></span><span class="eta">1&ndash;2 days</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="regions" aria-labelledby="regions-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Regions</p>
+            <h2 class="h2" id="regions-title" data-split>Lane-by-lane coverage from Hampton Roads.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15"><p class="lead">Mileage is measured from Norfolk International Terminals. Transit times assume container availability at the time of dispatch and standard receiving hours.</p></div>
+        </div>
+        <div class="stack" style="--stack:20px">
+          <article class="region-card" id="virginia" data-reveal>
+            <div>
+              <span class="kicker">Region 01 &middot; Same day</span>
+              <h3>Hampton Roads &amp; Virginia</h3>
+              <p>Our home market. Multiple daily turns between the Norfolk, Portsmouth and Newport News terminals and receivers throughout the Commonwealth, including the Richmond Marine Terminal barge service and the Virginia Inland Port rail gateway in Front Royal.</p>
+              <div class="region-card__meta"><div><strong>95&ndash;260</strong><span>Miles</span></div><div><strong>Same day</strong><span>Transit</span></div><div><strong>I-64 / I-95 / I-81</strong><span>Corridors</span></div></div>
+            </div>
+            <ul class="city-grid">
+              <li data-city="richmond">Richmond<span>95 mi</span></li><li>Chesapeake / Suffolk<span>25 mi</span></li><li>Williamsburg<span>45 mi</span></li>
+              <li>Petersburg<span>85 mi</span></li><li>Fredericksburg<span>150 mi</span></li><li>Charlottesville<span>170 mi</span></li>
+              <li data-city="frontroyal">Front Royal (VIP)<span>230 mi</span></li><li data-city="roanoke">Roanoke<span>260 mi</span></li><li>Lynchburg<span>200 mi</span></li>
+            </ul>
+          </article>
+          <article class="region-card" id="mid-atlantic" data-reveal>
+            <div>
+              <span class="kicker">Region 02 &middot; Same / next day</span>
+              <h3>Mid-Atlantic</h3>
+              <p>Daily service up the I-95 and I-83 corridors to the Washington metro, Baltimore, Delaware, southern and central Pennsylvania and the Philadelphia market. The densest lane group in our network, with drop-and-hook programs at several distribution centers.</p>
+              <div class="region-card__meta"><div><strong>195&ndash;300</strong><span>Miles</span></div><div><strong>Same / next</strong><span>Transit</span></div><div><strong>I-95 / I-83 / I-70</strong><span>Corridors</span></div></div>
+            </div>
+            <ul class="city-grid">
+              <li data-city="dc">Washington, DC<span>195 mi</span></li><li>Northern Virginia<span>190 mi</span></li><li data-city="baltimore">Baltimore<span>235 mi</span></li>
+              <li>Wilmington, DE<span>270 mi</span></li><li data-city="philadelphia">Philadelphia<span>290 mi</span></li><li data-city="harrisburg">Harrisburg<span>300 mi</span></li>
+              <li>Hagerstown<span>270 mi</span></li><li>Frederick<span>240 mi</span></li><li>Lancaster<span>290 mi</span></li>
+            </ul>
+          </article>
+          <article class="region-card" id="northeast" data-reveal>
+            <div>
+              <span class="kicker">Region 03 &middot; 1&ndash;2 days</span>
+              <h3>Northeast</h3>
+              <p>Next-day delivery into New Jersey and the New York metro with two-day service to Connecticut, Massachusetts and upstate New York. A practical alternative for shippers diverting cargo away from congested northern gateways.</p>
+              <div class="region-card__meta"><div><strong>360&ndash;570</strong><span>Miles</span></div><div><strong>1&ndash;2 days</strong><span>Transit</span></div><div><strong>I-95 / NJ Tpk</strong><span>Corridors</span></div></div>
+            </div>
+            <ul class="city-grid">
+              <li data-city="newark">Newark / Elizabeth<span>360 mi</span></li><li>Central New Jersey<span>340 mi</span></li><li data-city="nyc">New York City<span>380 mi</span></li>
+              <li>Long Island<span>410 mi</span></li><li>Hartford<span>470 mi</span></li><li data-city="boston">Boston<span>570 mi</span></li>
+              <li>Allentown<span>330 mi</span></li><li>Scranton<span>380 mi</span></li><li>Albany<span>520 mi</span></li>
+            </ul>
+          </article>
+          <article class="region-card" id="midwest" data-reveal>
+            <div>
+              <span class="kicker">Region 04 &middot; 1&ndash;2 days</span>
+              <h3>Midwest</h3>
+              <p>Direct drayage over the mountains via I-64, I-79 and I-70 into western Pennsylvania, Ohio, Indiana, Kentucky and on to Chicago, Detroit and St. Louis. Heavy manufacturing and automotive receivers use this lane to bypass rail dwell entirely.</p>
+              <div class="region-card__meta"><div><strong>420&ndash;900</strong><span>Miles</span></div><div><strong>1&ndash;2 days</strong><span>Transit</span></div><div><strong>I-64 / I-70 / I-79</strong><span>Corridors</span></div></div>
+            </div>
+            <ul class="city-grid">
+              <li data-city="pittsburgh">Pittsburgh<span>420 mi</span></li><li data-city="columbus">Columbus<span>540 mi</span></li><li data-city="cleveland">Cleveland<span>560 mi</span></li>
+              <li data-city="cincinnati">Cincinnati<span>600 mi</span></li><li data-city="louisville">Louisville<span>640 mi</span></li><li data-city="indianapolis">Indianapolis<span>700 mi</span></li>
+              <li data-city="detroit">Detroit<span>700 mi</span></li><li data-city="chicago">Chicago<span>880 mi</span></li><li data-city="stlouis">St. Louis<span>900 mi</span></li>
+            </ul>
+          </article>
+          <article class="region-card" id="southeast" data-reveal>
+            <div>
+              <span class="kicker">Region 05 &middot; 1&ndash;2 days</span>
+              <h3>Southeast</h3>
+              <p>Same-day into the Research Triangle and Piedmont Triad, next-day to Charlotte, Charleston, Savannah and Atlanta, and two-day service to Nashville and Memphis. Popular for retailers and furniture importers balancing volume between Norfolk and the South Atlantic ports.</p>
+              <div class="region-card__meta"><div><strong>190&ndash;880</strong><span>Miles</span></div><div><strong>1&ndash;2 days</strong><span>Transit</span></div><div><strong>I-95 / I-85 / I-40</strong><span>Corridors</span></div></div>
+            </div>
+            <ul class="city-grid">
+              <li data-city="raleigh">Raleigh / Durham<span>190 mi</span></li><li data-city="greensboro">Greensboro<span>250 mi</span></li><li data-city="charlotte">Charlotte<span>330 mi</span></li>
+              <li data-city="charleston">Charleston<span>470 mi</span></li><li data-city="savannah">Savannah<span>550 mi</span></li><li data-city="atlanta">Atlanta<span>560 mi</span></li>
+              <li>Knoxville<span>470 mi</span></li><li data-city="nashville">Nashville<span>700 mi</span></li><li data-city="memphis">Memphis<span>880 mi</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--navy" id="terminals" aria-labelledby="terminals-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-reveal>Origin terminals</p>
+            <h2 class="h2" id="terminals-title" data-split>Every Port of Virginia gate, plus the rail ramps.</h2>
+          </div>
+          <div data-reveal data-reveal-delay="0.15"><p class="lead">NDH drivers hold credentials and reservation-system access for each facility below, and dispatch monitors terminal advisories, gate hours and vessel schedules throughout the day.</p></div>
+        </div>
+        <div class="grid grid--3" data-reveal-stagger>
+          <div class="terminal-card"><span class="code">NIT</span><h3>Norfolk International Terminals</h3><p>The port's largest terminal, with north and south gates, semi-automated stacks and the highest share of NDH import pulls.</p><span class="loc">Norfolk, VA</span></div>
+          <div class="terminal-card"><span class="code">VIG</span><h3>Virginia International Gateway</h3><p>Automated terminal in Portsmouth handling ultra-large vessels. Appointment-driven gates make reservation discipline critical.</p><span class="loc">Portsmouth, VA</span></div>
+          <div class="terminal-card"><span class="code">PMT</span><h3>Portsmouth Marine Terminal</h3><p>Multi-use terminal supporting containers, project cargo and offshore wind staging on the Elizabeth River.</p><span class="loc">Portsmouth, VA</span></div>
+          <div class="terminal-card"><span class="code">NNMT</span><h3>Newport News Marine Terminal</h3><p>Breakbulk and ro-ro focused facility on the Peninsula with periodic container and specialized cargo needs.</p><span class="loc">Newport News, VA</span></div>
+          <div class="terminal-card"><span class="code">RMT</span><h3>Richmond Marine Terminal</h3><p>Inland barge terminal on the James River linked to Hampton Roads by the 64 Express barge service, serving central Virginia receivers.</p><span class="loc">Richmond, VA</span></div>
+          <div class="terminal-card"><span class="code">VIP</span><h3>Virginia Inland Port</h3><p>Intermodal rail facility in Front Royal connecting the port to the Shenandoah Valley, Northern Virginia and the I-81 corridor.</p><span class="loc">Front Royal, VA</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="transit-title">
+      <div class="container container--narrow">
+        <div class="section-head section-head--stack">
+          <p class="eyebrow" data-reveal>Transit reference</p>
+          <h2 class="h2" id="transit-title" data-split>Planning guide for common lanes.</h2>
+          <p class="lead" data-reveal>Standard service levels from Norfolk International Terminals. Expedited and team options are available on request.</p>
+        </div>
+        <div class="table-wrap" data-reveal>
+          <table class="data-table">
+            <thead><tr><th scope="col">Destination</th><th scope="col">Miles</th><th scope="col">Standard transit</th><th scope="col">Typical corridor</th><th scope="col">Lane</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Richmond, VA</th><td class="mono">95</td><td>Same day</td><td class="mono">I-64</td><td><button type="button" class="link-arrow" data-lane="richmond" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Washington, DC</th><td class="mono">195</td><td>Same day</td><td class="mono">I-64 &rarr; I-95</td><td><button type="button" class="link-arrow" data-lane="dc" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Baltimore, MD</th><td class="mono">235</td><td>Same day</td><td class="mono">I-95</td><td><button type="button" class="link-arrow" data-lane="baltimore" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Philadelphia, PA</th><td class="mono">290</td><td>Same day</td><td class="mono">I-95</td><td><button type="button" class="link-arrow" data-lane="philadelphia" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Charlotte, NC</th><td class="mono">330</td><td>Next day</td><td class="mono">US-58 &rarr; I-85</td><td><button type="button" class="link-arrow" data-lane="charlotte" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Newark, NJ</th><td class="mono">360</td><td>Next day</td><td class="mono">I-95 / NJ Tpk</td><td><button type="button" class="link-arrow" data-lane="newark" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Pittsburgh, PA</th><td class="mono">420</td><td>Next day</td><td class="mono">I-64 &rarr; I-79</td><td><button type="button" class="link-arrow" data-lane="pittsburgh" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Columbus, OH</th><td class="mono">540</td><td>Next day</td><td class="mono">I-64 &rarr; US-35</td><td><button type="button" class="link-arrow" data-lane="columbus" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Atlanta, GA</th><td class="mono">560</td><td>Next day</td><td class="mono">I-95 &rarr; I-85</td><td><button type="button" class="link-arrow" data-lane="atlanta" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+              <tr><th scope="row">Chicago, IL</th><td class="mono">880</td><td>2 days</td><td class="mono">I-64 &rarr; I-70 &rarr; I-65</td><td><button type="button" class="link-arrow" data-lane="chicago" style="font-size:.85rem">Trace <svg aria-hidden="true"><use href="#i-arrow"/></svg></button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cta-strip" style="margin-top:clamp(48px,6vw,80px)" data-reveal>
+          <div><h2>Need a lane that is not listed?</h2><p>We quote non-standard destinations daily, including transload-and-linehaul solutions for the Gulf and West. Send the details and a dispatcher will respond within the hour.</p></div>
+          <div class="cta-strip__actions"><a class="btn btn--white" href="/request-a-quote/" data-magnetic><span class="btn__text">Request a Quote</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

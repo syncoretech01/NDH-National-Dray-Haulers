@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /credit-application/
+
+Sitemap: https://www.nationaldrayhaulers.com/sitemap.xml
