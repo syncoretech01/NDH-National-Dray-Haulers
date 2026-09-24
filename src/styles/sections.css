@@ -1,6 +1,6 @@
 /* ============ HOME HERO ============ */
 .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; background: var(--navy-900); color: #fff; overflow: hidden; isolation: isolate; padding-top: calc(var(--header-h) + 24px); }
-.hero__media { position: absolute; inset: 0; z-index: -3; overflow: hidden; }
+.hero__media { position: absolute; top: 0; left: 0; right: 0; height: 100svh; z-index: -3; overflow: hidden; }
 .hero__media img { width: 100%; height: 115%; object-fit: cover; object-position: 60% 50%; transform-origin: center; opacity: .7; will-change: transform; }
 .hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,18,32,.95) 0%, rgba(11,18,32,.72) 40%, rgba(11,18,32,.28) 75%, rgba(11,18,32,.5) 100%), linear-gradient(180deg, rgba(11,18,32,.4) 0%, rgba(11,18,32,0) 35%, rgba(11,18,32,.95) 100%); }
 .hero__grid { position: absolute; inset: 0; z-index: -2; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 72px 72px; mask-image: radial-gradient(70% 60% at 70% 50%, #000 0%, transparent 100%); -webkit-mask-image: radial-gradient(70% 60% at 70% 50%, #000 0%, transparent 100%); }
