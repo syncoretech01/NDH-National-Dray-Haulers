@@ -177,10 +177,6 @@ export function initReveals() {
     if (!isTouch) gsap.fromTo(img, { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: img.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
   });
 
-  // Footer wordmark slide
-  const wm = qs('[data-wordmark]');
-  if (wm) gsap.fromTo(wm, { xPercent: 2.5 }, { xPercent: -2.5, ease: 'none', scrollTrigger: { trigger: wm, start: 'top bottom', end: 'bottom top', scrub: true } });
-
   // Scrollspy
   qsa('[data-spy]').forEach((nav) => {
     const links = qsa('a[href^="#"]', nav);
