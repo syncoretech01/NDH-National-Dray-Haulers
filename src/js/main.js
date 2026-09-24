@@ -26,15 +26,24 @@ async function boot() {
     try { const m = await modules[page](); m.default?.(); } catch (e) { console.error(`Page module "${page}" failed`, e); }
   }
 
+  // A full ScrollTrigger.refresh() re-measures every existing trigger. Three independent
+  // call sites (preloader done, fonts ready, window load) used to each fire their own,
+  // tripling that cost on every page load. Debounce them into a single pass.
+  let refreshTimer = null;
+  const scheduleRefresh = () => {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 120);
+  };
+
   initPreloader(() => {
     window.dispatchEvent(new Event('ndh:ready'));
     initReveals();
-    ScrollTrigger.refresh();
+    scheduleRefresh();
   });
 
-  // Fonts loaded -> recalc pinned/scroll positions
-  document.fonts?.ready.then(() => ScrollTrigger.refresh());
-  window.addEventListener('load', () => setTimeout(() => ScrollTrigger.refresh(), 200));
+  // Fonts/late images can change layout -> recalc pinned/scroll positions once, debounced.
+  document.fonts?.ready.then(scheduleRefresh);
+  window.addEventListener('load', scheduleRefresh);
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

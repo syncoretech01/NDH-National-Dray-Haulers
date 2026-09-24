@@ -103,9 +103,14 @@ export function initServiceMap(container, { legend, tooltip, autoplay = true } =
       const d = `M ${o.x} ${o.y} Q ${cx} ${cy} ${p.x} ${p.y}`;
       el('path', { d, class: 'map-route map-route--ghost' }, routesG);
       const path = el('path', { d, class: 'map-route', 'data-region': region.id, 'data-city': c.id }, routesG);
-      const L = path.getTotalLength();
+      // Approximate quadratic-bezier arc length instead of path.getTotalLength(): that call
+      // forces a synchronous layout, and doing it 25+ times right after each path is inserted
+      // (read immediately after write, in a loop) was measurably thrashing layout on load.
+      // (chord + control-polygon) / 2 is a standard, visually indistinguishable approximation
+      // for a dash-draw reveal - exact length isn't needed here.
+      const L = (Math.hypot(cx - o.x, cy - o.y) + Math.hypot(p.x - cx, p.y - cy) + Math.hypot(p.x - o.x, p.y - o.y)) / 2;
       path.style.strokeDasharray = L; path.style.strokeDashoffset = L;
-      routes.push({ path, L, city: c, region: region.id, p });
+      routes.push({ path, L, city: c, region: region.id, p, ox: o.x, oy: o.y, cx, cy });
 
       const g = el('g', { class: 'map-city', 'data-city': c.id, 'data-region': region.id, tabindex: '0', role: 'button', 'aria-label': `${c.name}: ${c.mi} miles, ${c.eta}` }, citiesG);
       el('circle', { cx: p.x, cy: p.y, r: 9, class: 'halo' }, g);
@@ -153,7 +158,15 @@ export function initServiceMap(container, { legend, tooltip, autoplay = true } =
     gsap.set(truck, { opacity: 1 });
     truckTween = gsap.to(prog, {
       t: 1, duration: Math.max(1.4, r.L / 220), ease: 'power2.inOut',
-      onUpdate: () => { const pt = r.path.getPointAtLength(prog.t * r.L); truck.setAttribute('transform', `translate(${pt.x}, ${pt.y})`); },
+      onUpdate: () => {
+        // Direct quadratic-bezier evaluation instead of path.getPointAtLength(): that method
+        // also forces a synchronous layout, and this runs on every animation frame (not once),
+        // so it was a much bigger real-world jank source than the one-time route setup above.
+        const t = prog.t, it = 1 - t;
+        const x = it * it * r.ox + 2 * it * t * r.cx + t * t * r.p.x;
+        const y = it * it * r.oy + 2 * it * t * r.cy + t * t * r.p.y;
+        truck.setAttribute('transform', `translate(${x}, ${y})`);
+      },
       onComplete: () => gsap.to(truck, { opacity: 0, duration: .5, delay: .3 })
     });
   }

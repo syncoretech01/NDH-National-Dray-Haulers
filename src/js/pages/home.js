@@ -44,12 +44,18 @@ export default function initHome() {
     const progress = qs('.process__progress span', process);
     const build = () => {
       if (window.innerWidth < 900) return;
-      const dist = () => track.scrollWidth - window.innerWidth;
+      // Cache the track width instead of reading track.scrollWidth from a function-based
+      // tween value: GSAP re-invokes that function on every scrub frame, so reading
+      // scrollWidth there was forcing a synchronous layout dozens of times a second while
+      // scrolling through this section (measured as the single worst scroll-jank spike
+      // on the page). invalidateOnRefresh + onRefreshInit keeps it correct across resizes.
+      let d = track.scrollWidth - window.innerWidth;
       const tween = gsap.to(track, {
-        x: () => -dist(), ease: 'none',
+        x: () => -d, ease: 'none',
         scrollTrigger: {
-          trigger: process, start: 'top top', end: () => `+=${dist() + window.innerHeight * .4}`,
+          trigger: process, start: 'top top', end: () => `+=${d + window.innerHeight * .4}`,
           pin: qs('.process__pin', process), scrub: .8, invalidateOnRefresh: true, anticipatePin: 1,
+          onRefreshInit: () => { d = track.scrollWidth - window.innerWidth; },
           onUpdate: (s) => progress && gsap.set(progress, { scaleX: s.progress })
         }
       });
@@ -63,8 +69,14 @@ export default function initHome() {
   /* Testimonials */
   initTestimonialSlider(qs('#tslider'));
 
-  /* Service cards: subtle parallax image on scroll (desktop) */
-  if (!isTouch) {
-    qsa('.service-card').forEach((card, i) => gsap.from(card, { y: 50, opacity: 0, duration: 1, ease: 'power3.out', delay: (i % 3) * .1, scrollTrigger: { trigger: card, start: 'top 90%', once: true } }));
+  /* Service cards: subtle reveal on scroll (desktop). Batched instead of one ScrollTrigger
+     per card - six individual triggers here were part of a page-load layout-thrashing issue. */
+  const serviceCards = qsa('.service-card');
+  if (!isTouch && serviceCards.length) {
+    gsap.set(serviceCards, { y: 50, opacity: 0 });
+    ScrollTrigger.batch(serviceCards, {
+      start: 'top 90%', once: true,
+      onEnter: (els) => gsap.to(els, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: .06, overwrite: true })
+    });
   }
 }

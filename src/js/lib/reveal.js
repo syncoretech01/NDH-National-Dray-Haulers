@@ -9,14 +9,26 @@ export function initReveals() {
     return;
   }
 
-  // Fade-up reveals
-  qsa('[data-reveal]').forEach((el) => {
-    const delay = parseFloat(el.dataset.revealDelay || 0);
-    gsap.to(el, {
-      opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', delay,
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  // Fade-up reveals. Batched into a small, shared set of ScrollTriggers instead of one
+  // per element - with 20-40+ [data-reveal] nodes on a typical page, creating that many
+  // individual ScrollTriggers each doing their own getBoundingClientRect/getComputedStyle
+  // pass caused real layout thrashing (measured: 1000+ forced-layout reads on first load).
+  const revealTargets = qsa('[data-reveal]');
+  if (revealTargets.length) {
+    ScrollTrigger.batch(revealTargets, {
+      start: 'top 88%', once: true,
+      // When several [data-reveal] nodes cross the threshold in the same scroll tick (common
+      // in sections with multiple reveals stacked close together), starting all their
+      // transform/opacity tweens in one frame promotes several compositor layers at once -
+      // a measured jank spike (300ms+ single frames). A small auto-stagger (unless the
+      // element already sets an explicit delay) spreads that layer-creation cost over a
+      // couple of frames instead.
+      onEnter: (els) => gsap.to(els, {
+        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', overwrite: true,
+        delay: (i) => els[i].dataset.revealDelay ? parseFloat(els[i].dataset.revealDelay) : i * .06
+      })
     });
-  });
+  }
 
   // Staggered children
   qsa('[data-reveal-stagger]').forEach((el) => {
@@ -26,24 +38,36 @@ export function initReveals() {
     });
   });
 
-  // Line-masked typography reveals
-  qsa('[data-split]').forEach((el) => {
-    const lines = splitLines(el);
-    gsap.to(lines, {
-      y: 0, duration: 1.2, ease: 'expo.out', stagger: .09,
-      delay: parseFloat(el.dataset.splitDelay || 0),
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+  // Line-masked typography reveals. splitLines() still runs per-element up front (it has
+  // to, regardless of scroll position), but the ScrollTrigger side is batched like above.
+  const splitTargets = qsa('[data-split]');
+  if (splitTargets.length) {
+    const splitLinesByEl = new Map(splitTargets.map((el) => [el, splitLines(el)]));
+    ScrollTrigger.batch(splitTargets, {
+      start: 'top 88%', once: true,
+      onEnter: (els) => els.forEach((el) => {
+        gsap.to(splitLinesByEl.get(el), {
+          y: 0, duration: 1.2, ease: 'expo.out', stagger: .09,
+          delay: parseFloat(el.dataset.splitDelay || 0)
+        });
+      })
     });
-  });
+  }
 
-  // Image mask reveals
+  // Image mask reveals. A real panel element that GSAP animates away via transform
+  // (GPU-cheap, no layout forcing) - this used to animate clip-path directly, which was
+  // a measured jank source when several of these fired in the same scroll frame.
   qsa('[data-mask-reveal]').forEach((el) => {
     const img = qs('img', el);
     const dir = el.dataset.maskReveal;
+    const panel = document.createElement('span');
+    panel.className = 'mask-reveal__panel';
+    panel.style.transformOrigin = dir === 'left' ? 'right' : dir === 'right' ? 'left' : 'top';
+    el.appendChild(panel);
     const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
-    tl.to(el, { clipPath: 'inset(0 0 0 0)', duration: 1.1, ease: 'expo.inOut' }, 0);
+    tl.to(panel, dir ? { scaleX: 0, duration: 1.1, ease: 'expo.inOut' } : { scaleY: 0, duration: 1.1, ease: 'expo.inOut' }, 0);
     if (img) tl.to(img, { scale: 1, duration: 1.6, ease: 'expo.out' }, .1);
-    void dir;
+    tl.set(panel, { display: 'none' });
   });
 
   // Parallax (image inside container moves at different speed)
