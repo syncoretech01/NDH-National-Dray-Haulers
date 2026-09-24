@@ -39,11 +39,17 @@ async function boot() {
     refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 120);
   };
 
-  initPreloader(async () => {
-    await pageReady; // make sure the page module's own ScrollTriggers exist before refreshing
+  initPreloader(() => {
+    // Do NOT wait on pageReady here. [data-reveal] content is CSS-hidden (opacity:0) the
+    // instant the page loads, and initReveals() is what fades it back in - if this waited
+    // on the home page module (which builds a ~3500-node SVG map on top of its own network
+    // round trip), the loading screen would disappear onto a visibly blank page until that
+    // finished. initReveals() only touches markup that's already in the static HTML, so it
+    // doesn't need the page module at all.
     window.dispatchEvent(new Event('ndh:ready'));
     initReveals();
     scheduleRefresh();
+    pageReady.then(scheduleRefresh); // catch up pin/scroll measurements once it lands
   });
 
   // Fonts/late images can change layout -> recalc pinned/scroll positions once, debounced.
