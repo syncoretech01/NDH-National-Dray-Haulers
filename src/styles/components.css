@@ -210,3 +210,17 @@ html.is-loading { overflow: hidden; }
 .toast--success { background: var(--green-600); }
 
 .site-footer__reg { margin-top: 14px; font-family: var(--font-mono); font-size: .74rem; line-height: 1.7; font-style: normal; color: rgba(255,255,255,.42); }
+
+.site-footer__family { border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); }
+.site-footer__family-inner { display: flex; align-items: center; justify-content: space-between; gap: 28px 40px; padding: 26px 0; flex-wrap: wrap; }
+.site-footer__family-label { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.42); white-space: nowrap; }
+.site-footer__family-logos { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.site-footer__family-logo { display: flex; align-items: center; height: 30px; }
+.site-footer__family-logo img { display: block; height: 18px; width: auto; opacity: .78; transition: opacity .3s; filter: grayscale(1) brightness(1.6); }
+.site-footer__family-logo:hover img { opacity: 1; filter: none; }
+.site-footer__family-logo--ndh img { height: 15px; }
+.site-footer__family-div { width: 1px; height: 22px; background: rgba(255,255,255,.14); flex-shrink: 0; }
+@media (max-width: 640px) {
+  .site-footer__family-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .site-footer__family-logos { gap: 20px; }
+}
