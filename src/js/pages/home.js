@@ -24,14 +24,22 @@ export default function initHome() {
     ];
     const rows = qsa('.lane-board__row', board);
     let cursor = rows.length;
-    setInterval(() => {
+    const tick = () => {
       const row = rows[Math.floor(Math.random() * rows.length)];
       const lane = lanes[cursor++ % lanes.length];
       gsap.to(row, { opacity: 0, x: -8, duration: .3, onComplete: () => {
         qs('.lane span', row).textContent = lane[0]; qs('.miles', row).textContent = lane[1]; qs('.eta', row).textContent = lane[2];
         gsap.fromTo(row, { opacity: 0, x: 8 }, { opacity: 1, x: 0, duration: .5, ease: 'power3.out' });
       } });
-    }, 2800);
+    };
+    // Was a bare setInterval running forever regardless of scroll position - every 2.8s, for
+    // the entire time the tab is open, even scrolled miles past the hero. Gated on visibility
+    // so it can't collide with scrolling/animation elsewhere on the page.
+    let laneTimer = null;
+    ScrollTrigger.create({
+      trigger: board, start: 'top bottom', end: 'bottom top',
+      onToggle: (s) => { clearInterval(laneTimer); if (s.isActive) laneTimer = setInterval(tick, 2800); }
+    });
   }
 
   /* Service map */

@@ -1,4 +1,4 @@
-import { gsap, qs, qsa, reduceMotion } from './core.js';
+import { gsap, qs, qsa, reduceMotion, ScrollTrigger } from './core.js';
 
 /** 3D coverflow-style testimonial slider with drag, keyboard and autoplay */
 export function initTestimonialSlider(root) {
@@ -9,7 +9,7 @@ export function initTestimonialSlider(root) {
   const dotsWrap = qs('.tslider__dots', root.parentElement);
   const n = cards.length;
   if (!n) return;
-  let idx = 0, timer = null;
+  let idx = 0, timer = null, inView = true;
 
   const dots = cards.map((_, i) => {
     const b = document.createElement('button');
@@ -39,7 +39,11 @@ export function initTestimonialSlider(root) {
   }
 
   function go(i, user = false) { idx = (i + n) % n; layout(); if (user) restart(); }
-  function restart() { clearInterval(timer); if (!reduceMotion) timer = setInterval(() => go(idx + 1), 6000); }
+  // Autoplay used to run on a setInterval for the page's entire lifetime, animating every
+  // card's 3D transform every 6s regardless of whether the slider was anywhere near the
+  // viewport - a background cost that could collide with an unrelated fast scroll elsewhere
+  // on the page and cause a visible stall. Gated on visibility instead.
+  function restart() { clearInterval(timer); if (!reduceMotion && inView) timer = setInterval(() => go(idx + 1), 6000); }
 
   prev?.addEventListener('click', () => go(idx - 1, true));
   next?.addEventListener('click', () => go(idx + 1, true));
@@ -53,6 +57,11 @@ export function initTestimonialSlider(root) {
   root.addEventListener('pointercancel', () => (startX = null));
   root.addEventListener('mouseenter', () => clearInterval(timer));
   root.addEventListener('mouseleave', restart);
+
+  ScrollTrigger.create({
+    trigger: root, start: 'top bottom', end: 'bottom top',
+    onToggle: (s) => { inView = s.isActive; if (inView) restart(); else clearInterval(timer); }
+  });
 
   layout(false);
   restart();
