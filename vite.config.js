@@ -54,7 +54,6 @@ export default defineConfig({
       ),
       output: {
         manualChunks: {
-          three: ['three'],
           gsap: ['gsap', 'gsap/ScrollTrigger']
         }
       }

@@ -11,7 +11,7 @@ body {
   font-size: var(--text-base);
   line-height: 1.6;
   color: var(--fg);
-  background: var(--bg);
+  background: var(--bg-gradient);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

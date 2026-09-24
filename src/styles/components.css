@@ -208,3 +208,5 @@ html.is-loading { overflow: hidden; }
 .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
 .toast--error { background: var(--red); }
 .toast--success { background: var(--green-600); }
+
+.site-footer__reg { margin-top: 14px; font-family: var(--font-mono); font-size: .74rem; line-height: 1.7; font-style: normal; color: rgba(255,255,255,.42); }

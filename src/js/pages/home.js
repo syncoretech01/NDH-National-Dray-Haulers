@@ -3,13 +3,6 @@ import { initServiceMap } from '../lib/map.js';
 import { initTestimonialSlider } from '../lib/tslider.js';
 
 export default function initHome() {
-  /* 3D hero (desktop only, WebGL available) */
-  const canvas = qs('#hero-canvas');
-  const webgl = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch { return false; } })();
-  if (canvas && webgl && window.innerWidth >= 900 && !reduceMotion) {
-    import('../lib/hero3d.js').then(({ initHero3D }) => initHero3D(canvas)).catch((e) => console.warn('Hero 3D unavailable', e));
-  } else if (canvas) canvas.remove();
-
   /* Hero text entrance (after preloader) */
   const heroTl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
   heroTl.from('.hero__badges .badge', { y: 16, opacity: 0, duration: .8, stagger: .08 }, 0)

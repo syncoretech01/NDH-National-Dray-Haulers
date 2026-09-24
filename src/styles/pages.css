@@ -127,3 +127,6 @@
 .safety-item span { font-size: .85rem; color: rgba(255,255,255,.6); }
 @media (max-width: 900px) { .safety-band { grid-template-columns: repeat(2, 1fr); } .pillar { grid-template-columns: 1fr; } }
 @media (max-width: 540px) { .safety-band { grid-template-columns: 1fr; } }
+
+.hours-list--stack li { flex-direction: column; align-items: flex-start; gap: 4px; }
+.hours-list--stack li span:last-child { text-align: left; }

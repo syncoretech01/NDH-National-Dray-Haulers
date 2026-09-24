@@ -3,8 +3,6 @@
 .hero__media { position: absolute; inset: 0; z-index: -3; overflow: hidden; }
 .hero__media img { width: 100%; height: 115%; object-fit: cover; object-position: 60% 50%; transform-origin: center; opacity: .7; will-change: transform; }
 .hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,18,32,.95) 0%, rgba(11,18,32,.72) 40%, rgba(11,18,32,.28) 75%, rgba(11,18,32,.5) 100%), linear-gradient(180deg, rgba(11,18,32,.4) 0%, rgba(11,18,32,0) 35%, rgba(11,18,32,.95) 100%); }
-.hero__canvas { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
-.hero__canvas.is-ready { opacity: 1; }
 .hero__grid { position: absolute; inset: 0; z-index: -2; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 72px 72px; mask-image: radial-gradient(70% 60% at 70% 50%, #000 0%, transparent 100%); -webkit-mask-image: radial-gradient(70% 60% at 70% 50%, #000 0%, transparent 100%); }
 .hero__inner { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 48px; align-items: end; padding-bottom: 40px; padding-top: 24px; }
 .hero__badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
@@ -209,7 +207,7 @@
 /* ============ TESTIMONIALS 3D SLIDER ============ */
 .tslider { position: relative; perspective: 1600px; height: 460px; }
 .tslider__stage { position: absolute; inset: 0; transform-style: preserve-3d; }
-.tcard { position: absolute; left: 50%; top: 50%; width: min(560px, 82vw); transform: translate(-50%, -50%); padding: 40px; border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-lg); transform-style: preserve-3d; will-change: transform, opacity; cursor: grab; user-select: none; }
+.tcard { position: absolute; left: 50%; top: 50%; width: min(560px, 82vw); padding: 40px; border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-lg); transform-style: preserve-3d; will-change: transform, opacity; cursor: grab; user-select: none; }
 .tcard:active { cursor: grabbing; }
 .tcard__quote { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 500; line-height: 1.4; letter-spacing: -.015em; color: var(--navy-900); }
 .tcard__quote::before { content: '\201C'; color: var(--cyan); font-size: 2em; line-height: 0; vertical-align: -.35em; margin-right: 4px; }
@@ -323,3 +321,16 @@
 .value-card .num { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .16em; color: var(--cyan-600); }
 .value-card h3 { font-size: 1.5rem; margin-top: auto; padding-top: 40px; }
 .value-card p { margin-top: 12px; color: var(--fg-muted); font-size: .95rem; }
+
+/* ============ SISTER COMPANIES (family) ============ */
+.family-section { position: relative; overflow: hidden; }
+.family-grid { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; margin-top: 8px; }
+.family-card { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 28px 56px; border-right: 1px solid rgba(255,255,255,.12); }
+.family-card:last-child { border-right: 0; }
+.family-card img { height: 32px; width: auto; max-width: 220px; object-fit: contain; }
+.family-card span { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .02em; color: rgba(255,255,255,.55); text-align: center; max-width: 24ch; }
+@media (max-width: 780px) {
+  .family-grid { flex-direction: column; gap: 8px; }
+  .family-card { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.12); padding: 22px 20px; width: 100%; max-width: 340px; }
+  .family-card:last-child { border-bottom: 0; }
+}

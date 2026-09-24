@@ -26,8 +26,9 @@
   --grad-soft: linear-gradient(120deg, rgba(26,163,227,.14) 0%, rgba(47,181,124,.14) 100%);
   --grad-dark: linear-gradient(180deg, rgba(11,18,32,0) 0%, rgba(11,18,32,.85) 100%);
 
-  --bg: var(--white);
-  --bg-alt: var(--slate-50);
+  --bg: #ffffff;
+  --bg-gradient: radial-gradient(120% 70% at 12% -10%, rgba(26,163,227,.10) 0%, rgba(26,163,227,0) 55%), radial-gradient(110% 65% at 100% 115%, rgba(47,181,124,.09) 0%, rgba(47,181,124,0) 55%), #ffffff;
+  --bg-alt: linear-gradient(165deg, #eaf7fd 0%, #eef4f5 55%, #ecf7f0 100%);
   --fg: var(--navy-700);
   --fg-muted: var(--slate-500);
   --line: var(--slate-200);

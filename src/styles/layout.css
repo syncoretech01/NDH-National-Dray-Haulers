@@ -17,7 +17,7 @@
 .section--navy .eyebrow { color: var(--cyan); }
 .section--grid { background-image: linear-gradient(rgba(27,36,51,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(27,36,51,.045) 1px, transparent 1px); background-size: 48px 48px; }
 .section--dark.section--grid, .section--navy.section--grid { background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); }
-main { position: relative; z-index: 1; background: var(--bg); }
+main { position: relative; z-index: 1; background: var(--bg-gradient); }
 
 .section-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px 64px; align-items: end; margin-bottom: clamp(40px, 5vw, 72px); }
 .section-head--center { grid-template-columns: 1fr; text-align: center; justify-items: center; }
