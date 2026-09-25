@@ -28,7 +28,7 @@ npm run dev        # terminal 2 — Vite dev server on :5173
 ## Structure
 ```
 index.html, <route>/index.html   page markup (uses <!--#include name attr="..." --> partials)
-src/partials/                    head (SEO/meta/JSON-LD), header, footer, shell (preloader/cursor), icons
+src/partials/                    head (SEO/meta/JSON-LD), header, footer, shell (custom cursor), icons
 src/styles/                      tokens, base, components, layout, sections, forms, pages
 src/js/main.js                   boot: smooth scroll, header, cursor, transitions, reveals, forms, page modules
 src/js/lib/                      core (gsap/lenis), shell, reveal system, map, 3D hero, testimonial slider, forms

@@ -71,8 +71,12 @@ export function initServiceMap(container, { legend, tooltip, autoplay = true } =
   el('stop', { offset: '100%', 'stop-color': '#1aa3e3' }, grad);
 
   // Dot matrix (precomputed - see the DOTS constant above)
-  const dots = el('g', { class: 'map-dots' }, svg);
-  for (let i = 0; i < DOTS.length; i += 2) el('circle', { cx: DOTS[i], cy: DOTS[i + 1], r: 2.1, class: 'map-dot' }, dots);
+  // Drawn as ONE path of zero-length round-capped segments (each renders as a 4.2px dot)
+  // instead of ~3,450 separate <circle> elements - identical pixels, but thousands fewer DOM
+  // nodes for every style recalc, layout, hit-test and repaint to walk.
+  let d = '';
+  for (let i = 0; i < DOTS.length; i += 2) d += `M${DOTS[i]} ${DOTS[i + 1]}h0`;
+  el('path', { d, class: 'map-dots' }, svg);
 
   const o = project(ORIGIN.lon, ORIGIN.lat);
   const routesG = el('g', { class: 'map-routes' }, svg);

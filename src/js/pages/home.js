@@ -1,18 +1,9 @@
-import { gsap, ScrollTrigger, qs, qsa, reduceMotion, isTouch } from '../lib/core.js';
-import { initServiceMap } from '../lib/map.js';
+import { gsap, qs, qsa, reduceMotion, onVisibility } from '../lib/core.js';
 import { initTestimonialSlider } from '../lib/tslider.js';
 
 export default function initHome() {
-  /* Hero text entrance (after preloader) */
-  const heroTl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
-  heroTl.from('.hero__badges .badge', { y: 16, opacity: 0, duration: .8, stagger: .08 }, 0)
-    .from('.hero__lead', { y: 24, opacity: 0, duration: 1 }, .5)
-    .from('.hero__actions > *', { y: 20, opacity: 0, duration: .9, stagger: .08 }, .65)
-    .from('.lane-board', { y: 30, opacity: 0, duration: 1.1 }, .5)
-    .from('.hero__stat', { y: 20, opacity: 0, duration: .9, stagger: .07 }, .8);
-  const startHero = () => { heroTl.play(); qs('.hero__title')?.dispatchEvent(new Event('ndh:split-play')); };
-  if (document.documentElement.classList.contains('is-loading')) window.addEventListener('ndh:ready', startHero, { once: true });
-  else startHero();
+  // (The hero entrance is pure CSS now - see .hero__* in layout.css - so it plays from first
+  // paint instead of waiting for this module to download and run.)
 
   /* Lane board: rotate visible lanes */
   const board = qs('.lane-board');
@@ -32,18 +23,26 @@ export default function initHome() {
         gsap.fromTo(row, { opacity: 0, x: 8 }, { opacity: 1, x: 0, duration: .5, ease: 'power3.out' });
       } });
     };
-    // Was a bare setInterval running forever regardless of scroll position - every 2.8s, for
-    // the entire time the tab is open, even scrolled miles past the hero. Gated on visibility
-    // so it can't collide with scrolling/animation elsewhere on the page.
+    // Only rotates while actually on screen (the board is display:none on phones, so there it
+    // never starts at all).
     let laneTimer = null;
-    ScrollTrigger.create({
-      trigger: board, start: 'top bottom', end: 'bottom top',
-      onToggle: (s) => { clearInterval(laneTimer); if (s.isActive) laneTimer = setInterval(tick, 2800); }
-    });
+    onVisibility(board, (vis) => { clearInterval(laneTimer); if (vis) laneTimer = setInterval(tick, 2800); });
   }
 
-  /* Service map */
-  initServiceMap(qs('#service-map'), { legend: qs('#map-legend'), tooltip: qs('#map-tooltip') });
+  /* Service map: ~40KB of code plus a large SVG, nowhere near the first screen - so load and
+     build it only as the visitor scrolls toward it, not during the initial page load. */
+  const mapEl = qs('#service-map');
+  if (mapEl) {
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      // The canvas has a fixed aspect-ratio, so inserting the SVG shifts nothing, and the map's
+      // own ScrollTriggers measure themselves on creation - no global refresh (which would
+      // re-measure everything mid-scroll) needed.
+      import('../lib/map.js').then(({ initServiceMap }) => initServiceMap(mapEl, { legend: qs('#map-legend'), tooltip: qs('#map-tooltip') }));
+    }, { rootMargin: '100% 0px' });
+    io.observe(mapEl);
+  }
 
   /* Horizontal process section */
   const process = qs('.process');
@@ -76,15 +75,4 @@ export default function initHome() {
 
   /* Testimonials */
   initTestimonialSlider(qs('#tslider'));
-
-  /* Service cards: subtle reveal on scroll (desktop). Batched instead of one ScrollTrigger
-     per card - six individual triggers here were part of a page-load layout-thrashing issue. */
-  const serviceCards = qsa('.service-card');
-  if (!isTouch && serviceCards.length) {
-    gsap.set(serviceCards, { y: 50, opacity: 0 });
-    ScrollTrigger.batch(serviceCards, {
-      start: 'top 90%', once: true,
-      onEnter: (els) => gsap.to(els, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: .06, overwrite: true })
-    });
-  }
 }

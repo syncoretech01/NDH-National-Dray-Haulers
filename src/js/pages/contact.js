@@ -1,4 +1,4 @@
-import { qs, gsap, reduceMotion } from '../lib/core.js';
+import { qs, gsap, reduceMotion, onVisibility } from '../lib/core.js';
 
 /** Stylized Virginia locator map (SVG) for the contact page */
 export default function initContact() {
@@ -16,11 +16,14 @@ export default function initContact() {
   const proj = ([lon, lat]) => [(lon + 84.2) * COS * K, (39.75 - lat) * K];
   const polys = [VA.map(proj), SHORE.map(proj)];
   const inAny = (p) => polys.some((pts) => { let ins = false; for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) { const [xi, yi] = pts[i], [xj, yj] = pts[j]; if (((yi > p[1]) !== (yj > p[1])) && (p[0] < ((xj - xi) * (p[1] - yi)) / (yj - yi) + xi)) ins = !ins; } return ins; });
-  const g = document.createElementNS(NS, 'g');
-  for (let y = 6; y < 380; y += 11) for (let x = 6; x < 800; x += 11) {
-    if (inAny([x, y])) { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 2.2); c.setAttribute('fill', 'rgba(255,255,255,.16)'); g.appendChild(c); }
-  }
-  svg.appendChild(g);
+  // One path of zero-length round-capped segments (each renders as a dot) instead of hundreds
+  // of separate <circle> nodes.
+  let d = '';
+  for (let y = 6; y < 380; y += 11) for (let x = 6; x < 800; x += 11) if (inAny([x, y])) d += `M${x} ${y}h0`;
+  const dots = document.createElementNS(NS, 'path');
+  dots.setAttribute('d', d); dots.setAttribute('fill', 'none'); dots.setAttribute('stroke', 'rgba(255,255,255,.16)'); dots.setAttribute('stroke-width', '4.4'); dots.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(dots);
+  const pulses = [];
   const spots = [
     { name: 'Northern Virginia HQ', lon: -77.45, lat: 38.85, color: '#1aa3e3', dx: 12, dy: 18 },
     { name: 'Hampton Roads Terminals', lon: -76.33, lat: 36.9, color: '#2fb57c', dx: -14, dy: 22, anchor: 'end' },
@@ -40,7 +43,9 @@ export default function initContact() {
     const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', 5); dot.setAttribute('fill', s.color);
     const t = document.createElementNS(NS, 'text'); t.setAttribute('x', x + (s.dx ?? 12)); t.setAttribute('y', y + (s.dy ?? 4)); if (s.anchor) t.setAttribute('text-anchor', s.anchor); t.setAttribute('fill', '#fff'); t.setAttribute('font-size', '13'); t.setAttribute('font-family', 'Inter, sans-serif'); t.setAttribute('font-weight', '600'); t.textContent = s.name;
     grp.append(halo, dot, t); svg.appendChild(grp);
-    if (!reduceMotion) gsap.to(halo, { attr: { r: 26 }, opacity: 0, duration: 2.4, repeat: -1, ease: 'power2.out', delay: Math.random() });
+    if (!reduceMotion) pulses.push(gsap.to(halo, { attr: { r: 26 }, opacity: 0, duration: 2.4, repeat: -1, ease: 'power2.out', delay: Math.random(), paused: true }));
   });
   wrap.prepend(svg);
+  // The pulses repaint the SVG every frame, so only run them while the map is on screen.
+  onVisibility(wrap, (vis) => pulses.forEach((tw) => (vis ? tw.play() : tw.pause())));
 }

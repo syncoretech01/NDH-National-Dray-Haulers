@@ -1,4 +1,4 @@
-import { gsap, qs, qsa, reduceMotion, ScrollTrigger } from './core.js';
+import { gsap, qs, qsa, reduceMotion, onVisibility } from './core.js';
 
 /** 3D coverflow-style testimonial slider with drag, keyboard and autoplay */
 export function initTestimonialSlider(root) {
@@ -9,7 +9,7 @@ export function initTestimonialSlider(root) {
   const dotsWrap = qs('.tslider__dots', root.parentElement);
   const n = cards.length;
   if (!n) return;
-  let idx = 0, timer = null, inView = true;
+  let idx = 0, timer = null, inView = false;
 
   const dots = cards.map((_, i) => {
     const b = document.createElement('button');
@@ -58,11 +58,11 @@ export function initTestimonialSlider(root) {
   root.addEventListener('mouseenter', () => clearInterval(timer));
   root.addEventListener('mouseleave', restart);
 
-  ScrollTrigger.create({
-    trigger: root, start: 'top bottom', end: 'bottom top',
-    onToggle: (s) => { inView = s.isActive; if (inView) restart(); else clearInterval(timer); }
-  });
+  // Starts out of view (it's far down the page) and only autoplays while actually on screen.
+  // It used to start autoplaying at load with inView hard-coded to true, and the ScrollTrigger
+  // that was meant to stop it only fires on a state *change* - so the 3D card animation kept
+  // running every 6s, off screen, until the visitor happened to scroll past it once.
+  onVisibility(root, (vis) => { inView = vis; if (vis) restart(); else clearInterval(timer); });
 
   layout(false);
-  restart();
 }

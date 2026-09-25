@@ -23,6 +23,9 @@ body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: none; }
 img, svg, video, canvas { display: block; max-width: 100%; }
 img { height: auto; }
 a { color: inherit; text-decoration: none; }
+/* Long email addresses (set in large display type on the contact cards) can't otherwise wrap,
+   and on phones they pushed the page wider than the screen. Only breaks when it has to. */
+a[href^="mailto:"] { overflow-wrap: anywhere; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 p { margin: 0; }

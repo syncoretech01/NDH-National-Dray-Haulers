@@ -6,7 +6,6 @@
   color: var(--btn-fg); background: var(--btn-bg); border: 1.5px solid var(--btn-bd);
   overflow: hidden; isolation: isolate; white-space: nowrap;
   transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out), background-color .3s, color .3s, border-color .3s;
-  will-change: transform;
 }
 .btn > span, .btn > svg { position: relative; z-index: 1; }
 .btn::before { content: ''; position: absolute; inset: 0; background: var(--grad); opacity: 0; transition: opacity .4s var(--ease-out); z-index: -1; }
@@ -114,22 +113,6 @@
 .mobile-menu__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; opacity: 0; }
 .mobile-menu__meta { margin-top: auto; padding-top: 32px; display: flex; flex-direction: column; gap: 6px; font-family: var(--font-mono); font-size: .82rem; color: var(--slate-300); opacity: 0; }
 
-/* ---------- Preloader ---------- */
-.preloader { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; color: #fff; }
-.preloader__panel { position: absolute; top: 0; bottom: 0; width: 50.5%; background: var(--navy-900); }
-.preloader__panel--l { left: 0; }
-.preloader__panel--r { right: 0; }
-.preloader__content { position: relative; width: min(420px, 80vw); }
-.preloader__logo img { width: 100%; opacity: 0; transform: translateY(20px); }
-.preloader__line { height: 1px; background: rgba(255,255,255,.12); margin: 28px 0 14px; overflow: hidden; }
-.preloader__line span { display: block; height: 100%; width: 100%; background: var(--grad); transform: scaleX(0); transform-origin: left; }
-.preloader__row { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--slate-400); opacity: 0; }
-.preloader__count { color: #fff; font-variant-numeric: tabular-nums; }
-.preloader.is-done { pointer-events: none; }
-html.is-loading { overflow: hidden; }
-
-.page-transition { position: fixed; inset: 0; z-index: 1900; background: var(--navy-900); transform: scaleY(0); transform-origin: bottom; pointer-events: none; }
-
 /* ---------- Cursor ---------- */
 .cursor { position: fixed; top: 0; left: 0; z-index: 3000; pointer-events: none; display: none; }
 .has-cursor .cursor { display: block; }
@@ -185,7 +168,13 @@ html.is-loading { overflow: hidden; }
 .on-dark .tag { background: rgba(255,255,255,.08); color: #fff; }
 
 .marquee { overflow: hidden; white-space: nowrap; position: relative; }
-.marquee__track { display: inline-flex; will-change: transform; }
+.marquee__track { display: inline-flex; }
+/* Two copies of the track side by side, slid left by exactly one copy (-50%) and looped.
+   A CSS transform animation runs on the compositor thread - the old GSAP version wrote an
+   inline transform on every frame, forever, even while the band was off screen. */
+.marquee__inner { display: flex; width: max-content; animation: marquee var(--marquee-dur, 40s) linear infinite; }
+.marquee.is-paused .marquee__inner { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
 .marquee__item { display: inline-flex; align-items: center; gap: 18px; padding: 0 28px; font-family: var(--font-display); font-weight: 600; font-size: .95rem; letter-spacing: .02em; }
 .marquee__item .sep { width: 8px; height: 8px; border-radius: 2px; background: var(--grad); transform: rotate(45deg); flex-shrink: 0; }
 
@@ -214,8 +203,7 @@ html.is-loading { overflow: hidden; }
 .site-footer__family-label { font-family: var(--font-mono); font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.45); }
 .site-footer__family-logos { display: flex; align-items: center; justify-content: center; gap: 44px; flex-wrap: wrap; }
 .site-footer__family-logo { display: flex; align-items: center; height: 68px; }
-.site-footer__family-logo img { display: block; height: 58px; width: auto; opacity: .88; transition: opacity .3s; filter: grayscale(1) brightness(1.6); }
-.site-footer__family-logo:hover img { opacity: 1; filter: none; }
+.site-footer__family-logo img { display: block; height: 58px; width: auto; }
 .site-footer__family-logo--ndh img { height: 46px; }
 .site-footer__family-div { width: 1px; height: 48px; background: rgba(255,255,255,.14); flex-shrink: 0; }
 @media (max-width: 640px) {
@@ -224,5 +212,7 @@ html.is-loading { overflow: hidden; }
   .site-footer__family-logo { height: 46px; }
   .site-footer__family-logo img { height: 38px; }
   .site-footer__family-logo--ndh img { height: 30px; }
-  .site-footer__family-div { height: 32px; }
+  /* The row wraps on phones (NDH above, BG + ART below), which left a divider dangling at the
+     end of the first line - drop the dividers here and let the gap do the separating. */
+  .site-footer__family-div { display: none; }
 }

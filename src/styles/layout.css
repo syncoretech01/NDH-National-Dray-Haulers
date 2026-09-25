@@ -20,9 +20,9 @@
 main { position: relative; z-index: 1; background: var(--bg-gradient); }
 
 .section-head { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px 64px; align-items: end; margin-bottom: clamp(40px, 5vw, 72px); }
-.section-head--center { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+.section-head--center { grid-template-columns: minmax(0, 1fr); text-align: center; justify-items: center; }
 .section-head--center .eyebrow { justify-content: center; }
-.section-head--stack { grid-template-columns: 1fr; }
+.section-head--stack { grid-template-columns: minmax(0, 1fr); }
 .section-head .lead { margin-bottom: 6px; }
 .section-head__actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
@@ -39,18 +39,18 @@ main { position: relative; z-index: 1; background: var(--bg-gradient); }
 @media (max-width: 1000px) {
   .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .section-head { grid-template-columns: 1fr; }
-  .split, .split--wide { grid-template-columns: 1fr; }
+  .section-head { grid-template-columns: minmax(0, 1fr); }
+  .split, .split--wide { grid-template-columns: minmax(0, 1fr); }
   .split--reverse > :first-child { order: 0; }
 }
 @media (max-width: 640px) {
-  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------- Page hero (inner pages) ---------- */
 .page-hero { position: relative; min-height: clamp(520px, 72vh, 780px); display: flex; align-items: flex-end; padding-top: calc(var(--header-h) + 40px); padding-bottom: clamp(48px, 6vw, 96px); color: #fff; overflow: hidden; background: var(--navy-900); isolation: isolate; }
 .page-hero__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
-.page-hero__media img { width: 100%; height: 120%; object-fit: cover; opacity: .75; will-change: transform; }
+.page-hero__media img { width: 100%; height: 120%; object-fit: cover; opacity: .75; }
 .page-hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,18,32,.92) 0%, rgba(11,18,32,.55) 55%, rgba(11,18,32,.25) 100%), linear-gradient(180deg, rgba(11,18,32,.35) 0%, rgba(11,18,32,0) 40%, rgba(11,18,32,.9) 100%); }
 .page-hero__inner { position: relative; width: 100%; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 40px; align-items: end; }
 .page-hero h1 { color: #fff; font-size: var(--text-5xl); font-weight: 800; letter-spacing: -.035em; line-height: .98; max-width: 14ch; }
@@ -64,9 +64,9 @@ main { position: relative; z-index: 1; background: var(--bg-gradient); }
 .breadcrumb span.sep { width: 20px; height: 1px; background: rgba(255,255,255,.4); }
 .breadcrumb [aria-current] { color: var(--cyan); }
 @media (max-width: 900px) {
-  .page-hero__inner { grid-template-columns: 1fr; }
+  .page-hero__inner { grid-template-columns: minmax(0, 1fr); }
   .page-hero__aside { justify-self: start; }
-  .page-hero__stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .page-hero__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 }
 
 /* ---------- Images / media ---------- */
@@ -79,14 +79,35 @@ main { position: relative; z-index: 1; background: var(--bg-gradient); }
 .media--ratio-1x1 { aspect-ratio: 1; }
 .media--ratio-21x9 { aspect-ratio: 21 / 9; }
 .media--square-corners { border-radius: 0; }
-[data-mask-reveal] img { transform: scale(1.18); will-change: transform; }
+.js [data-mask-reveal] img { transform: scale(1.18); }
 .mask-reveal__panel { position: absolute; inset: 0; z-index: 1; background: var(--navy-800); pointer-events: none; }
-[data-parallax] img { will-change: transform; }
+/* Parallax only runs on fine-pointer devices, so only promote those images there. */
 .media__caption { position: absolute; left: 20px; bottom: 20px; right: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: rgba(11,18,32,.78); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,.12); border-radius: 10px; color: #fff; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
 .media__caption .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green); }
 
-/* Reveal defaults (JS animates; keep visible if JS fails) */
-.js [data-reveal] { opacity: 0; transform: translateY(28px); }
+/* Scroll reveals. JS only adds .is-in (from one IntersectionObserver); the motion is a CSS
+   animation on opacity and the individual `translate` property, so it runs on the compositor
+   and never fights GSAP tilt/magnetic or :hover rules, which all drive `transform`. Content
+   stays visible if JS never runs, and anything already on screen at boot is left alone. */
+.js [data-reveal], .js [data-reveal-stagger] > * { opacity: 0; }
+.js [data-reveal].is-in, .js [data-reveal-stagger].is-in > * { opacity: 1; animation: revealUp 1.1s cubic-bezier(.215, .61, .355, 1) backwards; }
 .js [data-split] .line { display: block; overflow: hidden; }
-.js [data-split] .line > span { display: block; transform: translateY(110%); }
-.js [data-reveal-stagger] > * { opacity: 0; transform: translateY(28px); }
+.js [data-split] .line > span { display: block; translate: 0 110%; }
+.js [data-split].is-in .line > span { translate: none; animation: splitUp 1.2s var(--ease-out) backwards; }
+@keyframes revealUp { from { opacity: 0; translate: 0 28px; } }
+@keyframes splitUp { from { translate: 0 110%; } }
+
+/* Hero entrances: pure CSS from the very first paint, so the above-the-fold content never
+   waits on JavaScript (it used to sit hidden behind a preloader until the JS bundle ran).
+   The headline itself is deliberately NOT faded in: it's the page's Largest Contentful Paint,
+   and fading it from opacity 0 pushed LCP back by the full length of the animation. */
+.js .hero [data-reveal], .js .page-hero [data-reveal], .js .page-hero [data-reveal-stagger] > * { opacity: 1; }
+.hero__badges, .hero__lead, .hero__actions, .lane-board, .hero__stats,
+.page-hero .breadcrumb, .page-hero .lead, .page-hero__stats, .page-hero__aside { animation: heroIn 1s var(--ease-out) backwards; }
+.hero__lead, .page-hero .lead { animation-delay: .12s; }
+.hero__actions, .page-hero__stats { animation-delay: .26s; }
+.lane-board, .page-hero__aside { animation-delay: .32s; }
+.hero__stats { animation-delay: .4s; }
+.hero__media, .page-hero__media { animation: heroZoom 1.8s var(--ease-out) backwards; }
+@keyframes heroIn { from { opacity: 0; translate: 0 22px; } }
+@keyframes heroZoom { from { scale: 1.08; } }

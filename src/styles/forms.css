@@ -30,7 +30,7 @@
 
 .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 20px; }
 .fields--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.fields--1 { grid-template-columns: 1fr; }
+.fields--1 { grid-template-columns: minmax(0, 1fr); }
 .field { display: flex; flex-direction: column; gap: 8px; position: relative; }
 .field--full { grid-column: 1 / -1; }
 .field label:not(.check), .field .label { font-family: var(--font-display); font-size: .85rem; font-weight: 600; color: var(--navy-900); display: flex; justify-content: flex-start; align-items: baseline; gap: 6px; }
@@ -142,5 +142,5 @@ form.is-submitted > *:not(.form-success) { display: none; }
 .signature-box .sig:empty::before { content: 'Type your full legal name below to sign'; color: var(--slate-400); font-size: .95rem; font-style: normal; font-family: var(--font-body); }
 .signature-box small { font-size: .75rem; color: var(--slate-400); }
 
-@media (max-width: 1000px) { .form-shell { grid-template-columns: 1fr; } .form-side { position: static; } }
-@media (max-width: 640px) { .fields, .fields--3, .check-grid, .check-grid--3 { grid-template-columns: 1fr; } .review-list div { grid-template-columns: 1fr; gap: 2px; } .form-actions .btn { width: 100%; } }
+@media (max-width: 1000px) { .form-shell { grid-template-columns: minmax(0, 1fr); } .form-side { position: static; } }
+@media (max-width: 640px) { .fields, .fields--3, .check-grid, .check-grid--3 { grid-template-columns: minmax(0, 1fr); } .review-list div { grid-template-columns: minmax(0, 1fr); gap: 2px; } .form-actions .btn { width: 100%; } }

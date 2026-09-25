@@ -56,43 +56,80 @@ export function startScroll() { lenis ? lenis.start() : (document.documentElemen
 
 export { gsap, ScrollTrigger };
 
-/** Split a text element into line-wrapped spans for masked reveals */
-export function splitLines(el) {
-  if (el.dataset.splitDone) return qsa('.line > span', el);
-  const html = el.innerHTML.trim();
-  // Preserve inline accent spans by tokenizing HTML into words
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  const words = [];
-  const walk = (node, wrapClass) => {
-    node.childNodes.forEach((n) => {
-      if (n.nodeType === 3) {
-        n.textContent.split(/\s+/).filter(Boolean).forEach((w) => words.push({ w, cls: wrapClass }));
-      } else if (n.nodeType === 1) {
-        if (n.tagName === 'BR') words.push({ br: true });
-        else walk(n, (wrapClass ? wrapClass + ' ' : '') + (n.className || ''));
-      }
+/**
+ * Split text elements into line-wrapped spans for masked reveals. Returns one array of line
+ * spans per element. Done in three passes over ALL elements (write words / read positions /
+ * write lines) so the whole batch costs a single forced layout instead of one per heading.
+ */
+export function splitLinesAll(els) {
+  const todo = els.filter((el) => !el.dataset.splitDone);
+  // Pass 1 (writes): wrap every word in an inline-block span, preserving inline accent spans.
+  todo.forEach((el) => {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = el.innerHTML.trim();
+    const words = [];
+    const walk = (node, wrapClass) => {
+      node.childNodes.forEach((n) => {
+        if (n.nodeType === 3) {
+          n.textContent.split(/\s+/).filter(Boolean).forEach((w) => words.push({ w, cls: wrapClass }));
+        } else if (n.nodeType === 1) {
+          if (n.tagName === 'BR') words.push({ br: true });
+          else walk(n, (wrapClass ? wrapClass + ' ' : '') + (n.className || ''));
+        }
+      });
+    };
+    walk(tmp, '');
+    el.innerHTML = words.map((t) => t.br ? '<br>' : `<span class="w${t.cls ? ' ' + t.cls : ''}" style="display:inline-block">${t.w}</span>`).join(' ');
+  });
+  // Pass 2 (reads): group words into visual lines.
+  const grouped = todo.map((el) => {
+    const lines = [];
+    let cur = null, top = null;
+    qsa('.w', el).forEach((s) => {
+      const t = s.offsetTop;
+      if (top === null || Math.abs(t - top) > 4) { top = t; cur = []; lines.push(cur); }
+      cur.push(s);
     });
-  };
-  walk(tmp, '');
-  el.innerHTML = words.map((t) => t.br ? '<br>' : `<span class="w${t.cls ? ' ' + t.cls : ''}" style="display:inline-block">${t.w}</span>`).join(' ');
-  const spans = qsa('.w', el);
-  const lines = [];
-  let cur = null, top = null;
-  spans.forEach((s) => {
-    const t = s.offsetTop;
-    if (top === null || Math.abs(t - top) > 4) { top = t; cur = []; lines.push(cur); }
-    cur.push(s);
+    return lines;
   });
-  el.innerHTML = '';
-  lines.forEach((ln) => {
-    const line = document.createElement('span'); line.className = 'line';
-    const inner = document.createElement('span');
-    ln.forEach((s, i) => { s.style.display = ''; inner.appendChild(s); if (i < ln.length - 1) inner.appendChild(document.createTextNode(' ')); });
-    line.appendChild(inner); el.appendChild(line);
+  // Pass 3 (writes): rebuild each element as masked lines.
+  todo.forEach((el, k) => {
+    el.innerHTML = '';
+    grouped[k].forEach((ln) => {
+      const line = document.createElement('span'); line.className = 'line';
+      const inner = document.createElement('span');
+      ln.forEach((s, i) => { s.style.display = ''; inner.appendChild(s); if (i < ln.length - 1) inner.appendChild(document.createTextNode(' ')); });
+      line.appendChild(inner); el.appendChild(line);
+    });
+    el.dataset.splitDone = '1';
   });
-  el.dataset.splitDone = '1';
-  return qsa('.line > span', el);
+  return els.map((el) => qsa('.line > span', el));
+}
+
+export const splitLines = (el) => splitLinesAll([el])[0];
+
+/**
+ * Run `cb(elements)` once for each element the first time it scrolls into view (or is already
+ * above the viewport). One IntersectionObserver per call instead of a ScrollTrigger per element:
+ * no forced layouts on every ScrollTrigger.refresh(), and the browser does the tracking
+ * off the main thread. Elements entering together arrive in the same batch, in DOM order.
+ * `bottom` is how far above the viewport's bottom edge the element's top must cross (0.12 =>
+ * the old ScrollTrigger 'top 88%').
+ */
+export function onFirstView(els, cb, bottom = 0.12) {
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    const hits = entries.filter((e) => e.isIntersecting || e.boundingClientRect.bottom < 0).map((e) => e.target);
+    hits.forEach((t) => io.unobserve(t));
+    if (hits.length) cb(hits);
+  }, { rootMargin: `0px 0px -${Math.round(bottom * 100)}% 0px` });
+  els.forEach((el) => io.observe(el));
+}
+
+/** Call `cb(true|false)` whenever `el` enters/leaves the viewport (plus `margin`). */
+export function onVisibility(el, cb, margin = '0px') {
+  if (!el) return;
+  new IntersectionObserver((entries) => entries.forEach((e) => cb(e.isIntersecting)), { rootMargin: margin }).observe(el);
 }
 
 export function toast(message, type = '') {

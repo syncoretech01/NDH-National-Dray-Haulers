@@ -1,76 +1,76 @@
-import { gsap, ScrollTrigger, qs, qsa, reduceMotion, isTouch, splitLines } from './core.js';
+import { gsap, ScrollTrigger, qs, qsa, reduceMotion, isTouch, splitLinesAll, onFirstView, onVisibility } from './core.js';
 
 /** Generic scroll-driven animation system, driven by data-attributes */
 export function initReveals() {
+  // Hero content has its own CSS entrance (layout.css) and must never wait on JS, and anything
+  // already on screen when this runs has been painted visible - hiding it now just to fade it
+  // back in reads as a flicker/delay. Strip the reveal hooks from both so they stay put; only
+  // content below the fold gets the scroll-in treatment.
+  // All reads first, then all writes: one layout pass total.
+  const vh = window.innerHeight;
+  const hooks = ['data-reveal', 'data-reveal-stagger', 'data-split', 'data-mask-reveal'];
+  const onScreen = qsa(hooks.map((a) => `[${a}]`).join(','))
+    .filter((el) => el.closest('.hero, .page-hero') || el.getBoundingClientRect().top < vh);
+  onScreen.forEach((el) => hooks.forEach((a) => el.removeAttribute(a)));
+
   if (reduceMotion) {
-    qsa('[data-reveal], [data-reveal-stagger] > *, [data-mask-reveal]').forEach((el) => { el.style.opacity = 1; el.style.transform = 'none'; el.style.clipPath = 'none'; });
-    qsa('[data-split]').forEach((el) => { el.style.opacity = 1; });
-    qsa('[data-counter]').forEach((el) => { el.textContent = el.dataset.counter; });
+    qsa('[data-reveal], [data-reveal-stagger], [data-split]').forEach((el) => el.classList.add('is-in'));
+    qsa('[data-counter]').forEach((el) => { el.textContent = format(el, parseFloat(el.dataset.counter)); });
+    qsa('.stat-tile').forEach((el) => el.classList.add('is-in'));
     return;
   }
 
-  // Fade-up reveals. Batched into a small, shared set of ScrollTriggers instead of one
-  // per element - with 20-40+ [data-reveal] nodes on a typical page, creating that many
-  // individual ScrollTriggers each doing their own getBoundingClientRect/getComputedStyle
-  // pass caused real layout thrashing (measured: 1000+ forced-layout reads on first load).
-  const revealTargets = qsa('[data-reveal]');
-  if (revealTargets.length) {
-    ScrollTrigger.batch(revealTargets, {
-      start: 'top 88%', once: true,
-      // When several [data-reveal] nodes cross the threshold in the same scroll tick (common
-      // in sections with multiple reveals stacked close together), starting all their
-      // transform/opacity tweens in one frame promotes several compositor layers at once -
-      // a measured jank spike (300ms+ single frames). A small auto-stagger (unless the
-      // element already sets an explicit delay) spreads that layer-creation cost over a
-      // couple of frames instead.
-      onEnter: (els) => gsap.to(els, {
-        opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', overwrite: true,
-        delay: (i) => els[i].dataset.revealDelay ? parseFloat(els[i].dataset.revealDelay) : i * .06
-      })
-    });
-  }
+  // Fade-up reveals: CSS animation (see layout.css), JS only flips the class. When several
+  // cross the threshold together, a small auto-stagger keeps them from all starting on the
+  // same frame, unless the element sets its own data-reveal-delay.
+  onFirstView(qsa('[data-reveal]'), (els) => els.forEach((el, i) => {
+    el.style.animationDelay = `${el.dataset.revealDelay ? parseFloat(el.dataset.revealDelay) : i * .06}s`;
+    el.classList.add('is-in');
+  }));
 
   // Staggered children
-  qsa('[data-reveal-stagger]').forEach((el) => {
-    gsap.to(el.children, {
-      opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: parseFloat(el.dataset.revealStagger || .1),
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true }
-    });
-  });
+  onFirstView(qsa('[data-reveal-stagger]'), (els) => els.forEach((el) => {
+    const step = parseFloat(el.dataset.revealStagger || .1);
+    Array.from(el.children).forEach((c, i) => { c.style.animationDelay = `${i * step}s`; });
+    el.classList.add('is-in');
+  }), .15);
 
-  // Line-masked typography reveals. splitLines() still runs per-element up front (it has
-  // to, regardless of scroll position), but the ScrollTrigger side is batched like above.
+  // Line-masked typography reveals. Splitting measures line breaks, so wait for the web fonts
+  // (otherwise lines are computed with fallback-font metrics); everything split here is below
+  // the fold, so nothing visible waits on this.
   const splitTargets = qsa('[data-split]');
   if (splitTargets.length) {
-    const splitLinesByEl = new Map(splitTargets.map((el) => [el, splitLines(el)]));
-    ScrollTrigger.batch(splitTargets, {
-      start: 'top 88%', once: true,
-      onEnter: (els) => els.forEach((el) => {
-        gsap.to(splitLinesByEl.get(el), {
-          y: 0, duration: 1.2, ease: 'expo.out', stagger: .09,
-          delay: parseFloat(el.dataset.splitDelay || 0)
-        });
-      })
+    const fontsReady = Promise.race([document.fonts?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 2500))]);
+    fontsReady.then(() => {
+      const lines = splitLinesAll(splitTargets);
+      splitTargets.forEach((el, k) => {
+        const delay = parseFloat(el.dataset.splitDelay || 0);
+        lines[k].forEach((span, i) => { span.style.animationDelay = `${delay + i * .09}s`; });
+      });
+      onFirstView(splitTargets, (els) => els.forEach((el) => el.classList.add('is-in')));
     });
   }
 
   // Image mask reveals. A real panel element that GSAP animates away via transform
-  // (GPU-cheap, no layout forcing) - this used to animate clip-path directly, which was
-  // a measured jank source when several of these fired in the same scroll frame.
-  qsa('[data-mask-reveal]').forEach((el) => {
-    const img = qs('img', el);
-    const dir = el.dataset.maskReveal;
+  // (GPU-cheap, no layout forcing).
+  const masks = qsa('[data-mask-reveal]');
+  masks.forEach((el) => {
     const panel = document.createElement('span');
     panel.className = 'mask-reveal__panel';
+    const dir = el.dataset.maskReveal;
     panel.style.transformOrigin = dir === 'left' ? 'right' : dir === 'right' ? 'left' : 'top';
     el.appendChild(panel);
-    const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
-    tl.to(panel, dir ? { scaleX: 0, duration: 1.1, ease: 'expo.inOut' } : { scaleY: 0, duration: 1.1, ease: 'expo.inOut' }, 0);
+  });
+  onFirstView(masks, (els) => els.forEach((el) => {
+    const img = qs('img', el);
+    const panel = qs('.mask-reveal__panel', el);
+    const tl = gsap.timeline();
+    tl.to(panel, el.dataset.maskReveal ? { scaleX: 0, duration: 1.1, ease: 'expo.inOut' } : { scaleY: 0, duration: 1.1, ease: 'expo.inOut' }, 0);
     if (img) tl.to(img, { scale: 1, duration: 1.6, ease: 'expo.out' }, .1);
     tl.set(panel, { display: 'none' });
-  });
+  }), .15);
 
-  // Parallax (image inside container moves at different speed)
+  // Parallax (image inside container moves at different speed) - scrubbed, so ScrollTrigger
   if (!isTouch) {
     qsa('[data-parallax]').forEach((el) => {
       const img = qs('img', el) || el;
@@ -82,21 +82,19 @@ export function initReveals() {
     });
   }
 
-  // Counters
-  qsa('[data-counter]').forEach((el) => {
-    const target = parseFloat(el.dataset.counter);
-    const decimals = (el.dataset.counter.split('.')[1] || '').length;
-    const prefix = el.dataset.prefix || '', suffix = el.dataset.suffix || '';
+  // Counters. The real figure is in the HTML (so it's right even before/without JS); count up
+  // from zero once scrolled into view. (Hero stats fade in with a CSS delay, so by the time
+  // they're visible this has already reset them.)
+  const counters = qsa('[data-counter]');
+  counters.forEach((el) => { el.textContent = format(el, 0); });
+  onFirstView(counters, (els) => els.forEach((el) => {
+    el.closest('.stat-tile')?.classList.add('is-in');
     const obj = { v: 0 };
-    el.textContent = prefix + (0).toFixed(decimals) + suffix;
-    gsap.to(obj, {
-      v: target, duration: 2, ease: 'power3.out',
-      onUpdate: () => { el.textContent = prefix + obj.v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix; },
-      scrollTrigger: { trigger: el, start: 'top 98%', once: true, onEnter: () => el.closest('.stat-tile')?.classList.add('is-in') }
-    });
-  });
+    gsap.to(obj, { v: parseFloat(el.dataset.counter), duration: 2, ease: 'power3.out', onUpdate: () => { el.textContent = format(el, obj.v); } });
+  }), .02);
 
-  // Word-by-word statement highlight (scrubbed)
+  // Word-by-word statement highlight (scrubbed). Only touch the words whose state changed -
+  // this used to re-toggle every word's class on every scroll update.
   qsa('[data-words]').forEach((el) => {
     const nodes = [];
     const walk = (node) => {
@@ -112,11 +110,15 @@ export function initReveals() {
       });
     };
     walk(el);
+    let lit = -1;
     ScrollTrigger.create({
       trigger: el, start: 'top 80%', end: 'bottom 45%', scrub: true,
       onUpdate: (self) => {
-        const n = Math.floor(self.progress * nodes.length);
-        nodes.forEach((w, i) => w.classList.toggle('is-on', i <= n));
+        const n = Math.min(nodes.length - 1, Math.floor(self.progress * nodes.length));
+        if (n === lit) return;
+        const [a, b] = n > lit ? [lit + 1, n] : [n + 1, lit];
+        for (let i = Math.max(0, a); i <= b; i++) nodes[i].classList.toggle('is-on', i <= n);
+        lit = n;
       }
     });
   });
@@ -129,23 +131,28 @@ export function initReveals() {
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
         card.style.setProperty('--mx', `${px * 100}%`); card.style.setProperty('--my', `${py * 100}%`);
-        gsap.to(card, { rotateY: (px - .5) * max * 2, rotateX: (.5 - py) * max * 2, transformPerspective: 1000, duration: .6, ease: 'power3.out' });
+        gsap.to(card, { rotateY: (px - .5) * max * 2, rotateX: (.5 - py) * max * 2, transformPerspective: 1000, duration: .6, ease: 'power3.out', overwrite: 'auto' });
       });
-      card.addEventListener('mouseleave', () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: 'elastic.out(1, .5)' }));
+      card.addEventListener('mouseleave', () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: 1, ease: 'elastic.out(1, .5)', overwrite: 'auto' }));
     });
   }
 
-  // Marquees
+  // Marquees: a pure CSS animation (components.css), paused while off screen. Hover slows it
+  // via the Web Animations API, which keeps it on the compositor.
   qsa('[data-marquee]').forEach((m) => {
     const track = qs('.marquee__track', m);
     if (!track) return;
-    const clone = track.cloneNode(true); clone.setAttribute('aria-hidden', 'true'); m.appendChild(clone);
+    const inner = document.createElement('div');
+    inner.className = 'marquee__inner';
+    const clone = track.cloneNode(true); clone.setAttribute('aria-hidden', 'true');
+    m.appendChild(inner); inner.append(track, clone);
     const speed = parseFloat(m.dataset.marquee || 60);
-    const w = () => track.offsetWidth;
-    const tween = gsap.to([track, clone], { x: () => -w(), duration: () => w() / speed, ease: 'none', repeat: -1 });
-    m.addEventListener('mouseenter', () => gsap.to(tween, { timeScale: .25, duration: .6 }));
-    m.addEventListener('mouseleave', () => gsap.to(tween, { timeScale: 1, duration: .6 }));
-    ScrollTrigger.create({ trigger: m, start: 'top bottom', end: 'bottom top', onToggle: (s) => (s.isActive ? tween.play() : tween.pause()) });
+    const setDur = () => inner.style.setProperty('--marquee-dur', `${track.offsetWidth / speed}s`);
+    document.fonts?.ready.then(setDur) ?? setDur();
+    const rate = (r) => inner.getAnimations?.().forEach((a) => a.updatePlaybackRate(r));
+    m.addEventListener('mouseenter', () => rate(.25));
+    m.addEventListener('mouseleave', () => rate(1));
+    onVisibility(m, (vis) => m.classList.toggle('is-paused', !vis));
   });
 
   // Timeline progress + items
@@ -168,14 +175,15 @@ export function initReveals() {
     });
   });
 
-  // Page hero media parallax + zoom-in reveal
-  qsa('.page-hero__media img, .hero__media img').forEach((img) => {
-    gsap.fromTo(img, { scale: 1.12 }, { scale: 1, duration: 2.2, ease: 'expo.out', delay: .2 });
-    if (!isTouch) gsap.to(img, { yPercent: 12, ease: 'none', scrollTrigger: { trigger: img.closest('section, header, div'), start: 'top top', end: 'bottom top', scrub: true } });
-  });
-  qsa('.driver-cta__media img').forEach((img) => {
-    if (!isTouch) gsap.fromTo(img, { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: img.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
-  });
+  // Hero media parallax (the zoom-in entrance is CSS now - see .hero__media in layout.css)
+  if (!isTouch) {
+    qsa('.page-hero__media img, .hero__media img').forEach((img) => {
+      gsap.to(img, { yPercent: 12, ease: 'none', scrollTrigger: { trigger: img.closest('section, header, div'), start: 'top top', end: 'bottom top', scrub: true } });
+    });
+    qsa('.driver-cta__media img').forEach((img) => {
+      gsap.fromTo(img, { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: img.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+  }
 
   // Scrollspy
   qsa('[data-spy]').forEach((nav) => {
@@ -189,6 +197,15 @@ export function initReveals() {
       });
     });
   });
+}
+
+// toLocaleString(locale, options) builds a fresh Intl.NumberFormat on every call - and this runs
+// every animation frame for every counter. Build one formatter per precision and reuse it.
+const formatters = new Map();
+function format(el, v) {
+  const decimals = (el.dataset.counter.split('.')[1] || '').length;
+  if (!formatters.has(decimals)) formatters.set(decimals, new Intl.NumberFormat('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }));
+  return (el.dataset.prefix || '') + formatters.get(decimals).format(v) + (el.dataset.suffix || '');
 }
 
 export function initAccordions() {

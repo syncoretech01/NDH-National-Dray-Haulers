@@ -1,71 +1,9 @@
-import { gsap, qs, qsa, reduceMotion, isTouch, stopScroll, startScroll, scrollTo, getLenis } from './core.js';
+import { gsap, qs, qsa, reduceMotion, isTouch, stopScroll, startScroll, scrollTo } from './core.js';
 
-/* ---------------- Preloader ---------------- */
-export function initPreloader(onDone) {
-  const el = qs('#preloader');
-  const html = document.documentElement;
-  if (!el) { onDone?.(); return; }
-  const seen = sessionStorage.getItem('ndh-loaded');
-  const quick = !!seen || reduceMotion;
-  html.classList.add('is-loading');
-  stopScroll();
-
-  const finish = () => {
-    html.classList.remove('is-loading');
-    el.classList.add('is-done');
-    startScroll();
-    sessionStorage.setItem('ndh-loaded', '1');
-    onDone?.();
-  };
-
-  const panels = qsa('.preloader__panel', el);
-  const logo = qs('.preloader__logo img', el);
-  const line = qs('.preloader__line span', el);
-  const row = qs('.preloader__row', el);
-  const count = qs('#preloader-count', el);
-
-  if (quick) {
-    gsap.set([logo, row], { opacity: 0 });
-    gsap.timeline({ onComplete: () => { el.remove(); finish(); } })
-      .to(panels, { yPercent: -100, duration: .8, ease: 'expo.inOut', stagger: .06 }, .1);
-    return;
-  }
-
-  const progress = { v: 0 };
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-  tl.to(logo, { opacity: 1, y: 0, duration: 1 }, 0)
-    .to(row, { opacity: 1, duration: .6 }, .3)
-    .to(progress, {
-      v: 100, duration: 1.7, ease: 'power2.inOut',
-      onUpdate: () => { count.textContent = String(Math.round(progress.v)).padStart(2, '0'); }
-    }, .3)
-    .to(line, { scaleX: 1, duration: 1.7, ease: 'power2.inOut' }, .3)
-    .to([logo, row, qs('.preloader__line', el)], { opacity: 0, y: -16, duration: .5, ease: 'power2.in' }, '+=.15')
-    .add(() => finish())
-    .to(panels, { yPercent: -100, duration: 1.1, ease: 'expo.inOut', stagger: .08 }, '-=.1')
-    .add(() => el.remove());
-}
-
-/* ---------------- Page transitions ---------------- */
-export function initTransitions() {
-  const overlay = qs('#page-transition');
-  if (!overlay || reduceMotion) return;
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href]');
-    if (!a) return;
-    const href = a.getAttribute('href');
-    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || a.target === '_blank' || a.hasAttribute('download')) return;
-    const url = new URL(a.href, location.href);
-    if (url.origin !== location.origin) return;
-    if (url.pathname === location.pathname && url.hash) return;
-    if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-    e.preventDefault();
-    gsap.timeline({ onComplete: () => { location.href = url.href; } })
-      .set(overlay, { transformOrigin: 'bottom' })
-      .to(overlay, { scaleY: 1, duration: .6, ease: 'expo.inOut' });
-  });
-  window.addEventListener('pageshow', (e) => { if (e.persisted) gsap.set(overlay, { scaleY: 0 }); });
-}
+// There used to be a branded preloader here (a fixed ~3.7s logo/counter/panel sequence on the
+// first visit, ~0.9s on every page after) and a page-transition wipe that held every internal
+// link click for 0.6s before navigating. Both were pure added latency on top of the real load,
+// so they're gone: the page paints as soon as it arrives and hero content animates in with CSS.
 
 /* ---------------- Header ---------------- */
 export function initHeader() {
@@ -116,12 +54,20 @@ export function initCursor() {
   const ringPos = { x: pos.x, y: pos.y };
   const xDot = gsap.quickSetter(dot, 'x', 'px'), yDot = gsap.quickSetter(dot, 'y', 'px');
   const xRing = gsap.quickSetter(ring, 'x', 'px'), yRing = gsap.quickSetter(ring, 'y', 'px');
-  window.addEventListener('mousemove', (e) => { pos.x = e.clientX; pos.y = e.clientY; cursor.classList.remove('is-hidden'); }, { passive: true });
-  document.addEventListener('mouseleave', () => cursor.classList.add('is-hidden'));
-  gsap.ticker.add(() => {
+  // Only run the follow loop while the ring is still catching up to the pointer. It used to
+  // write four transforms on every frame for the page's whole lifetime, even with the mouse
+  // perfectly still, which kept style recalc + compositing busy on an otherwise idle page.
+  let running = false;
+  const follow = () => {
     ringPos.x += (pos.x - ringPos.x) * .18; ringPos.y += (pos.y - ringPos.y) * .18;
     xDot(pos.x); yDot(pos.y); xRing(ringPos.x); yRing(ringPos.y);
-  });
+    if (Math.abs(pos.x - ringPos.x) < .1 && Math.abs(pos.y - ringPos.y) < .1) { gsap.ticker.remove(follow); running = false; }
+  };
+  window.addEventListener('mousemove', (e) => {
+    pos.x = e.clientX; pos.y = e.clientY; cursor.classList.remove('is-hidden');
+    if (!running) { running = true; gsap.ticker.add(follow); }
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => cursor.classList.add('is-hidden'));
   const hoverSel = 'a, button, [data-cursor], input[type="checkbox"], input[type="radio"], label.choice, .tcard';
   document.addEventListener('mouseover', (e) => {
     const t = e.target.closest(hoverSel);
